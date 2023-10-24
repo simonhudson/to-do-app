@@ -15,7 +15,7 @@ import {
 	ItemName,
 	ItemCategories,
 	Actions,
-} from './styles';
+} from '@/theme/styles';
 
 export const getServerSideProps = async () => {
 	try {
