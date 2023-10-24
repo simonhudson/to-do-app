@@ -37,7 +37,7 @@ const Home = ({ data }: { data: Item[] }) => {
 		}
 	};
 
-	const submitForm = async (e) => {
+	const submitForm = async (e: any) => {
 		e.preventDefault();
 		const newValue = e.target[0].value;
 		if (newValue) {
