@@ -1,6 +1,6 @@
 import type { NextApiResponse } from 'next';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
-import { InsertOneResult, UpdateResult, WithId } from 'mongodb';
+import { DeleteResult, InsertOneResult, UpdateResult, WithId } from 'mongodb';
 import type { Item } from '@/types/item';
 
 export const sendGetResponsePayload = (response: WithId<any>[], res: NextApiResponse) => {
@@ -21,6 +21,14 @@ export const sendPostResponsePayload = (response: InsertOneResult<Document>, res
 };
 
 export const sendPutResponsePayload = (response: UpdateResult<Document>, res: NextApiResponse) => {
+	const responsePayload = {
+		status: response.acknowledged ? httpStatusCodes.OK : httpStatusCodes.NOT_FOUND,
+		data: response,
+	};
+	res.json(responsePayload);
+};
+
+export const sendDeleteResponsePayload = (response: DeleteResult, res: NextApiResponse) => {
 	const responsePayload = {
 		status: response.acknowledged ? httpStatusCodes.OK : httpStatusCodes.NOT_FOUND,
 		data: response,

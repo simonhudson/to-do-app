@@ -43,7 +43,6 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 		if (response.status === httpStatusCodes.OK) {
 			const data = await getItems();
 			setItems(data.data);
-			setStatusMessage('Item added successfully.');
 			setInputValue('');
 		} else {
 			setStatusMessage('Sorry, there was an error adding your item.');
@@ -79,6 +78,14 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 		refreshData(putResponse);
 	};
 
+	const deleteItem = async (item: Item) => {
+		const deleteResponse = await fetch('/api/to-do/items', {
+			method: 'delete',
+			body: JSON.stringify(item),
+		});
+		refreshData(deleteResponse);
+	};
+
 	const renderList = (items: Item[]) => (
 		<ItemsList>
 			{items.map((item) => {
@@ -92,7 +99,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 							<Button onClick={() => updateItemState(item)}>
 								{item.is_complete ? 'Add to To-do' : 'Complete'}
 							</Button>
-							<Button>Delete</Button>
+							<Button onClick={() => deleteItem(item)}>Delete</Button>
 						</Actions>
 					</ItemsItem>
 				);

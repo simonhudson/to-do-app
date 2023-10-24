@@ -1,6 +1,11 @@
 import mongoClient from '@/db/mongoClient';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { sendGetResponsePayload, sendPostResponsePayload, sendPutResponsePayload } from '@/helpers/api';
+import {
+	sendGetResponsePayload,
+	sendPostResponsePayload,
+	sendPutResponsePayload,
+	sendDeleteResponsePayload,
+} from '@/helpers/api';
 import { ObjectId } from 'mongodb';
 const COLLECTION_NAME = 'items';
 
@@ -8,29 +13,51 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const client = await mongoClient;
 	const db = client.db(process.env.DB_NAME);
 
+	const doGet = async () => {
+		const response = await db.collection(COLLECTION_NAME).find({}).sort({}).toArray();
+		sendGetResponsePayload(response, res);
+	};
+
+	const doPost = async () => {
+		const body = JSON.parse(req.body);
+		const response = await db.collection(COLLECTION_NAME).insertOne(body);
+		sendPostResponsePayload(response, res);
+	};
+
+	const doPut = async () => {
+		const body = JSON.parse(req.body);
+		const query = { _id: new ObjectId(body._id) };
+		const newValues = {
+			$set: {
+				name: body.name,
+				is_complete: body.is_complete,
+				categories: body.categories,
+			},
+		};
+		const response = await db.collection(COLLECTION_NAME).updateOne(query, newValues);
+		sendPutResponsePayload(response, res);
+	};
+
+	const doDelete = async () => {
+		const body = JSON.parse(req.body);
+		const query = { _id: new ObjectId(body._id) };
+		const response = await db.collection(COLLECTION_NAME).deleteOne(query);
+		sendDeleteResponsePayload(response, res);
+	};
+
 	const METHOD = req.method?.toLowerCase();
 	switch (METHOD) {
 		case 'get':
-			const getResponse = await db.collection(COLLECTION_NAME).find({}).sort({}).toArray();
-			sendGetResponsePayload(getResponse, res);
+			await doGet();
 			break;
 		case 'post':
-			const postBody = JSON.parse(req.body);
-			const postResponse = await db.collection(COLLECTION_NAME).insertOne(postBody);
-			sendPostResponsePayload(postResponse, res);
+			await doPost();
 			break;
 		case 'put':
-			const putBody = JSON.parse(req.body);
-			const query = { _id: new ObjectId(putBody._id) };
-			const newValues = {
-				$set: {
-					name: putBody.name,
-					is_complete: putBody.is_complete,
-					categories: putBody.categories,
-				},
-			};
-			const putResponse = await db.collection(COLLECTION_NAME).updateOne(query, newValues);
-			sendPutResponsePayload(putResponse, res);
+			await doPut();
+			break;
+		case 'delete':
+			await doDelete();
 			break;
 	}
 };
