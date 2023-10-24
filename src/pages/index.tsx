@@ -4,7 +4,6 @@ import type { Item } from '@/types/item';
 import type { Categories } from '@/types/categories';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { getItems, getCategories } from '@/helpers/api';
-import { slugify } from '@/helpers/slugify';
 import {
 	FieldRow,
 	Label,
@@ -41,10 +40,6 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 	const [inputValue, setInputValue] = useState<string>('');
 
 	const refreshData = async (response: Response) => {
-		console.log('ref----------------');
-		console.log(response);
-		console.log('/ref----------------');
-
 		if (response.status === httpStatusCodes.OK) {
 			const data = await getItems();
 			setItems(data.data);
