@@ -1,7 +1,7 @@
 import mongoClient from '@/db/mongoClient';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { sendGetResponsePayload, sendPostResponsePayload } from '@/helpers/api';
-const COLLECTION_NAME = 'items';
+const COLLECTION_NAME = 'categories';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const client = await mongoClient;

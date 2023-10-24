@@ -1,1 +1,4 @@
-export type Categories = 'Simon' | 'Jodie' | 'Henry' | 'House' | 'Cleaning' | 'Shopping';
+export interface Categories {
+	_id: string;
+	value: string;
+}

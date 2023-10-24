@@ -1,15 +1,31 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { H1, H2 } from '@/theme/typography';
 import type { Item } from '@/types/item';
+import type { Categories } from '@/types/categories';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
+import { getItems, getCategories } from '@/helpers/api';
+import { slugify } from '@/helpers/slugify';
+import {
+	FieldRow,
+	Label,
+	Input,
+	Button,
+	ItemsList,
+	ItemsItem,
+	ItemInfo,
+	ItemName,
+	ItemCategories,
+	Actions,
+} from './styles';
 
 export const getServerSideProps = async () => {
 	try {
-		const response = await fetch(`${process.env.API_DOMAIN}/api/to-do/items`);
-		const data = await response.json();
+		const items = await getItems();
+		const categories = await getCategories();
 		return {
 			props: {
-				data: data.data,
+				itemsData: items.data,
+				categoriesData: categories.data,
 			},
 		};
 	} catch (error) {
@@ -19,16 +35,18 @@ export const getServerSideProps = async () => {
 	}
 };
 
-const Home = ({ data }: { data: Item[] }) => {
+const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Categories[] }) => {
 	const [statusMessage, setStatusMessage] = useState<string | undefined>();
-	const [items, setItems] = useState<Item[]>(data);
-	const [completeItems, setCompleteItems] = useState<Item[]>(data.filter((item) => item.is_complete));
+	const [items, setItems] = useState<Item[]>(itemsData);
 	const [inputValue, setInputValue] = useState<string>('');
 
-	const handleResponse = async (response: Response) => {
+	const refreshData = async (response: Response) => {
+		console.log('ref----------------');
+		console.log(response);
+		console.log('/ref----------------');
+
 		if (response.status === httpStatusCodes.OK) {
-			const response = await fetch('/api/to-do/items');
-			const data = await response.json();
+			const data = await getItems();
 			setItems(data.data);
 			setStatusMessage('Item added successfully.');
 			setInputValue('');
@@ -39,58 +57,88 @@ const Home = ({ data }: { data: Item[] }) => {
 
 	const submitForm = async (e: any) => {
 		e.preventDefault();
-		const newValue = e.target[0].value;
-		if (newValue) {
+		const nameValue = e.target[0].value;
+		if (nameValue) {
 			const updatedData = {
-				name: newValue,
+				name: nameValue,
 				is_complete: false,
 			};
 			const postResponse = await fetch('/api/to-do/items', {
 				method: 'post',
 				body: JSON.stringify(updatedData),
 			});
-			handleResponse(postResponse);
+			refreshData(postResponse);
 		} else {
 			setStatusMessage('Please enter a Name for your item.');
 		}
 	};
 
-	return (
+	const updateItemState = async (item: Item) => {
+		const putResponse = await fetch('/api/to-do/items', {
+			method: 'put',
+			body: JSON.stringify({
+				...item,
+				is_complete: !item.is_complete,
+			}),
+		});
+		refreshData(putResponse);
+	};
+
+	const renderItem = (item: Item) => (
+		<>
+			<ItemsItem id={`item-${item._id}`} key={`item-${item._id}`}>
+				<ItemInfo>
+					<ItemName>{item.name}</ItemName>
+					{item.categories && <ItemCategories>{item.categories.join(', ')}</ItemCategories>}
+				</ItemInfo>
+				<Actions>
+					<Button onClick={() => updateItemState(item)}>
+						{item.is_complete ? 'Add to To-do' : 'Complete'}
+					</Button>
+					<Button>Delete</Button>
+				</Actions>
+			</ItemsItem>
+		</>
+	);
+
+	return itemsData ? (
 		<>
 			<H1>To-do</H1>
-			<ul>
-				{items.map((item) => {
-					return (
-						<li id={`item-${item._id}`} key={`item-${item._id}`}>
-							{item.name}
-						</li>
-					);
-				})}
-			</ul>
+			<ItemsList>{items.filter((item) => !item.is_complete).map((item) => renderItem(item))}</ItemsList>
 			<H2>Complete</H2>
-			<ul>
-				{completeItems.map((item) => {
-					return (
-						<li id={`item-${item._id}`} key={`item-${item._id}`}>
-							{item.name}
-						</li>
-					);
-				})}
-			</ul>
+			<ItemsList>{items.filter((item) => item.is_complete).map((item) => renderItem(item))}</ItemsList>
 			<form onSubmit={submitForm}>
-				<label htmlFor="name">Name</label>
-				<input
-					value={inputValue}
-					type="text"
-					id="name"
-					name="name"
-					onChange={(e) => setInputValue(e.target.value)}
-				/>
-				<button>Add item</button>
+				<FieldRow>
+					<Label htmlFor="name">Name</Label>
+					<Input
+						id="name"
+						name="name"
+						onChange={(e) => setInputValue(e.target.value)}
+						type="text"
+						value={inputValue}
+					/>
+				</FieldRow>
+				<FieldRow>
+					<Label htmlFor="categories">Categories</Label>
+					{categoriesData.map((category) => {
+						return (
+							<FieldRow key={`categories-${category._id}`}>
+								<input
+									id={`categories-${category._id}`}
+									name={`categories-${category._id}`}
+									type="checkbox"
+									value={category.value}
+								/>
+								<label htmlFor={`categories-${category._id}`}>{category.value}</label>
+							</FieldRow>
+						);
+					})}
+				</FieldRow>
+				<Button>Add item</Button>
 			</form>
 			{statusMessage && <p>{statusMessage}</p>}
 		</>
-	);
+	) : null;
 };
 
 export default Home;

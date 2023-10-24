@@ -7,13 +7,11 @@ import { Wrap } from '@/theme/layout';
 import type { AppProps } from './_app.d';
 
 const App = ({ Component, pageProps }: AppProps) => {
-	pageProps.holdingMode = process?.env?.HOLDING_MODE?.toLowerCase() === 'true';
-
 	return (
 		<>
 			<Head>
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
-				<title>{process.env.CLUB_NAME}</title>
+				<title>To-do App</title>
 			</Head>
 			<ThemeProvider theme={theme}>
 				<GlobalStyles />

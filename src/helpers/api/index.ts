@@ -1,6 +1,7 @@
 import type { NextApiResponse } from 'next';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
-import { InsertOneResult, WithId } from 'mongodb';
+import { InsertOneResult, UpdateResult, WithId } from 'mongodb';
+import type { Item } from '@/types/item';
 
 export const sendGetResponsePayload = (response: WithId<any>[], res: NextApiResponse) => {
 	const responsePayload = {
@@ -18,3 +19,27 @@ export const sendPostResponsePayload = (response: InsertOneResult<Document>, res
 	};
 	res.json(responsePayload);
 };
+
+export const sendPutResponsePayload = (response: UpdateResult<Document>, res: NextApiResponse) => {
+	const responsePayload = {
+		status: response.acknowledged ? httpStatusCodes.OK : httpStatusCodes.NOT_FOUND,
+		data: response,
+	};
+	res.json(responsePayload);
+};
+
+const doGet = async (path: string) => {
+	const response = await fetch(`${process.env.API_DOMAIN}/api/to-do/${path}`);
+	const data = await response.json();
+	return data;
+};
+
+const doPut = async (path: string) => {
+	const response = await fetch(`${process.env.API_DOMAIN}/api/to-do/${path}`, { method: 'put' });
+	const data = await response.json();
+	return data;
+};
+
+export const getItems = async () => doGet('items');
+export const getCategories = async () => doGet('categories');
+export const updateItem = async () => doPut('item');
