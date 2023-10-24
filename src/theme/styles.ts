@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { rem } from 'polished';
 import { spacingRem } from '@/theme/spacing';
 import { palette } from '@/theme/palette';
+import { media } from '@/theme/media';
 
 export const FieldRow = styled.div`
 	padding: 0 0 ${spacingRem.sm};
@@ -35,14 +36,24 @@ export const ItemsItem = styled.li`
 	align-items: center;
 	background: #eee;
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 0 ${spacingRem.sm};
 	padding: ${spacingRem.sm};
+
+	${media.tabletPortrait(`
+		flex-direction: row;
+	`)}
 `;
 
 export const ItemInfo = styled.div`
-	max-width: 83%;
-	width: 83%;
+	align-self: flex-start;
+	padding: 0 0 ${spacingRem.sm};
+
+	${media.tabletPortrait(`
+	align-self: auto;
+		padding: 0;
+	`)}
 `;
 
 export const ItemName = styled.span`
@@ -56,9 +67,8 @@ export const ItemCategories = styled.span`
 `;
 
 export const Actions = styled.div`
+	align-self: flex-start;
 	display: flex;
 	gap: ${spacingRem.sm};
 	justify-content: flex-end;
-	max-width: 17%;
-	width: 17%;
 `;
