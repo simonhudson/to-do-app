@@ -79,29 +79,36 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 		refreshData(putResponse);
 	};
 
-	const renderItem = (item: Item) => (
-		<>
-			<ItemsItem id={`item-${item._id}`} key={`item-${item._id}`}>
-				<ItemInfo>
-					<ItemName>{item.name}</ItemName>
-					{item.categories && <ItemCategories>{item.categories.join(', ')}</ItemCategories>}
-				</ItemInfo>
-				<Actions>
-					<Button onClick={() => updateItemState(item)}>
-						{item.is_complete ? 'Add to To-do' : 'Complete'}
-					</Button>
-					<Button>Delete</Button>
-				</Actions>
-			</ItemsItem>
-		</>
+	const renderList = (items: Item[]) => (
+		<ItemsList>
+			{items.map((item) => {
+				return (
+					<ItemsItem id={`item-${item._id}`} key={`item-${item._id}`}>
+						<ItemInfo>
+							<ItemName>{item.name}</ItemName>
+							{item.categories && <ItemCategories>{item.categories.join(', ')}</ItemCategories>}
+						</ItemInfo>
+						<Actions>
+							<Button onClick={() => updateItemState(item)}>
+								{item.is_complete ? 'Add to To-do' : 'Complete'}
+							</Button>
+							<Button>Delete</Button>
+						</Actions>
+					</ItemsItem>
+				);
+			})}
+		</ItemsList>
 	);
+
+	const renderIncompleteList = () => renderList(items.filter((item) => !item.is_complete));
+	const renderCompleteList = () => renderList(items.filter((item) => item.is_complete));
 
 	return itemsData ? (
 		<>
 			<H1>To-do</H1>
-			<ItemsList>{items.filter((item) => !item.is_complete).map((item) => renderItem(item))}</ItemsList>
+			{renderIncompleteList()}
 			<H2>Complete</H2>
-			<ItemsList>{items.filter((item) => item.is_complete).map((item) => renderItem(item))}</ItemsList>
+			{renderCompleteList()}
 			<form onSubmit={submitForm}>
 				<FieldRow>
 					<Label htmlFor="name">Name</Label>
