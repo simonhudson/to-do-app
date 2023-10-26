@@ -1,7 +1,8 @@
 import React from 'react';
-import { FieldRow, Label, Input, Button, Fieldset, Legend } from '@/components/form/form.styles';
+import { FieldRow, Button, Fieldset, Legend } from '@/components/form/form.styles';
 import type { AddItemProps } from './types';
 import { Checkbox } from '@/components/form/checkbox';
+import { Input } from '@/components/form/input';
 import { CheckboxGroup } from '@/components/form/checkbox/index.styles';
 import { Form } from '@/components/form/form.styles';
 
@@ -17,12 +18,11 @@ export const AddItem = ({
 		<>
 			<Form onSubmit={onSubmit}>
 				<FieldRow>
-					<Label htmlFor="name">Name</Label>
 					<Input
 						id="name"
-						name="name"
-						onChange={(e) => handleNameChange(e)}
-						type="text"
+						label="Name"
+						onChange={handleNameChange}
+						placeholder="(e.g. Pick up milk)"
 						value={nameFieldValue}
 					/>
 				</FieldRow>
@@ -48,5 +48,3 @@ export const AddItem = ({
 		</>
 	);
 };
-
-export default AddItem;

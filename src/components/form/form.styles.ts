@@ -16,7 +16,7 @@ export const Label = styled.label`
 	padding: 0 0 ${spacingRem.sm};
 `;
 
-export const Input = styled.input`
+export const InputField = styled.input`
 	border: 1px solid ${palette.primary.grey};
 	border-radius: ${spacingRem.xsm};
 	padding: ${spacingRem.sm};
