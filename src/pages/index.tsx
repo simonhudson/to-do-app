@@ -83,11 +83,11 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 		}
 	};
 
-	const handleNameChange = (e) => {
+	const handleNameChange = (e: { target: { value: string } }) => {
 		setFormFieldValues({ ...formFieldValues, name: e.target.value });
 	};
 
-	const submitForm = async (e: any) => {
+	const submitForm = async (e: { preventDefault: Function }) => {
 		e.preventDefault();
 		if (formFieldValues.name) {
 			const postResponse = await fetch('/api/to-do/items', {
