@@ -1,21 +1,12 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { H1, H2 } from '@/theme/typography';
 import type { Item } from '@/types/item';
 import type { Categories } from '@/types/categories';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { getItems, getCategories } from '@/helpers/api';
-import {
-	FieldRow,
-	Label,
-	Input,
-	Button,
-	ItemsList,
-	ItemsItem,
-	ItemInfo,
-	ItemName,
-	ItemCategories,
-	Actions,
-} from '@/theme/styles';
+import { Button, ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, Actions } from '@/theme/styles';
+import { AddItem } from '@/components/add-item';
+import Modal from '@/components/modal';
 
 export const getServerSideProps = async () => {
 	try {
@@ -34,33 +25,76 @@ export const getServerSideProps = async () => {
 	}
 };
 
+interface FormFieldValues {
+	name: string;
+	categories: string[];
+	isComplete: boolean;
+}
+
 const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Categories[] }) => {
-	const [statusMessage, setStatusMessage] = useState<string | undefined>();
+	const defaultFormFieldValues = {
+		name: '',
+		categories: [],
+		isComplete: false,
+	};
+
+	const [statusMessage, setStatusMessage] = useState<string>('');
 	const [items, setItems] = useState<Item[]>(itemsData);
-	const [inputValue, setInputValue] = useState<string>('');
+	const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
+	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+
+	const parseCategories = (categories: string[]) => {
+		const returnValue: string[] = [];
+		categories.forEach((category) => {
+			const data = categoriesData.find((item) => item._id === category);
+			if (data) returnValue.push(data.value);
+		});
+		return returnValue.join(', ');
+	};
+
+	const clearFormFieldValues = () => {
+		setFormFieldValues(defaultFormFieldValues);
+	};
 
 	const refreshData = async (response: Response) => {
 		if (response.status === httpStatusCodes.OK) {
 			const data = await getItems();
 			setItems(data.data);
-			setInputValue('');
+			clearFormFieldValues();
 		} else {
 			setStatusMessage('Sorry, there was an error adding your item.');
 		}
 	};
 
+	const handleCategoryChange = (e: { target: { checked: boolean; value: string } }) => {
+		if (e.target.checked) {
+			const updatedCategories = formFieldValues.categories;
+			updatedCategories.push(e.target.value);
+			setFormFieldValues({
+				...formFieldValues,
+				categories: updatedCategories,
+			});
+		} else {
+			const updatedCategories = formFieldValues.categories.filter((item) => item !== e.target.value);
+			setFormFieldValues({
+				...formFieldValues,
+				categories: updatedCategories,
+			});
+		}
+	};
+
+	const handleNameChange = (e) => {
+		setFormFieldValues({ ...formFieldValues, name: e.target.value });
+	};
+
 	const submitForm = async (e: any) => {
 		e.preventDefault();
-		const nameValue = e.target[0].value;
-		if (nameValue) {
-			const updatedData = {
-				name: nameValue,
-				is_complete: false,
-			};
+		if (formFieldValues.name) {
 			const postResponse = await fetch('/api/to-do/items', {
 				method: 'post',
-				body: JSON.stringify(updatedData),
+				body: JSON.stringify(formFieldValues),
 			});
+			setModalIsOpen(false);
 			refreshData(postResponse);
 		} else {
 			setStatusMessage('Please enter a Name for your item.');
@@ -93,7 +127,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 					<ItemsItem id={`item-${item._id}`} key={`item-${item._id}`}>
 						<ItemInfo>
 							<ItemName>{item.name}</ItemName>
-							{item.categories && <ItemCategories>{item.categories.join(', ')}</ItemCategories>}
+							{item.categories && <ItemCategories>{parseCategories(item.categories)}</ItemCategories>}
 						</ItemInfo>
 						<Actions>
 							<Button onClick={() => updateItemState(item)}>
@@ -116,36 +150,19 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 			{renderIncompleteList()}
 			<H2>Complete</H2>
 			{renderCompleteList()}
-			<form onSubmit={submitForm}>
-				<FieldRow>
-					<Label htmlFor="name">Name</Label>
-					<Input
-						id="name"
-						name="name"
-						onChange={(e) => setInputValue(e.target.value)}
-						type="text"
-						value={inputValue}
+			<Button onClick={() => setModalIsOpen(true)}>Add new item</Button>
+			{modalIsOpen && (
+				<Modal onClose={() => setModalIsOpen(false)}>
+					<AddItem
+						categoriesData={categoriesData}
+						handleCategoryChange={handleCategoryChange}
+						handleNameChange={handleNameChange}
+						nameFieldValue={formFieldValues.name}
+						onSubmit={submitForm}
+						statusMessage={statusMessage}
 					/>
-				</FieldRow>
-				<FieldRow>
-					<Label htmlFor="categories">Categories</Label>
-					{categoriesData.map((category) => {
-						return (
-							<FieldRow key={`categories-${category._id}`}>
-								<input
-									id={`categories-${category._id}`}
-									name={`categories-${category._id}`}
-									type="checkbox"
-									value={category.value}
-								/>
-								<label htmlFor={`categories-${category._id}`}>{category.value}</label>
-							</FieldRow>
-						);
-					})}
-				</FieldRow>
-				<Button>Add item</Button>
-			</form>
-			{statusMessage && <p>{statusMessage}</p>}
+				</Modal>
+			)}
 		</>
 	) : null;
 };

@@ -72,3 +72,9 @@ export const Actions = styled.div`
 	gap: ${spacingRem.sm};
 	justify-content: flex-end;
 `;
+
+export const Fieldset = styled.fieldset``;
+
+export const Legend = styled.legend`
+	font-weight: bold;
+`;
