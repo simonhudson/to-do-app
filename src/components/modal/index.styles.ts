@@ -38,7 +38,7 @@ export const Wrapper = styled.div`
 	position: relative;
 	text-align: center;
 	top: ${rem(32)};
-	width: 90%;
+	width: 80%;
 	z-index: 2;
 
 	${media.tabletLandscape(`
