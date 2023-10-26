@@ -3,6 +3,7 @@ import { FieldRow, Label, Input, Button, Fieldset, Legend } from '@/components/f
 import type { AddItemProps } from './types';
 import { Checkbox } from '@/components/form/checkbox';
 import { CheckboxGroup } from '@/components/form/checkbox/index.styles';
+import { Form } from '@/components/form/form.styles';
 
 export const AddItem = ({
 	categoriesData,
@@ -14,7 +15,7 @@ export const AddItem = ({
 }: AddItemProps) => {
 	return (
 		<>
-			<form onSubmit={onSubmit}>
+			<Form onSubmit={onSubmit}>
 				<FieldRow>
 					<Label htmlFor="name">Name</Label>
 					<Input
@@ -42,7 +43,7 @@ export const AddItem = ({
 					</CheckboxGroup>
 				</Fieldset>
 				<Button>Add item</Button>
-			</form>
+			</Form>
 			{statusMessage && <p>{statusMessage}</p>}
 		</>
 	);

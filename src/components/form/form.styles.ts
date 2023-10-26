@@ -2,13 +2,18 @@ import styled from 'styled-components';
 import { spacingRem } from '@/theme/spacing';
 import { palette } from '@/theme/palette';
 
+export const Form = styled.form`
+	text-align: left;
+`;
+
 export const FieldRow = styled.div`
-	padding: 0 0 ${spacingRem.sm};
+	padding: 0 0 ${spacingRem.md};
 `;
 
 export const Label = styled.label`
 	display: block;
 	font-weight: bold;
+	padding: 0 0 ${spacingRem.sm};
 `;
 
 export const Input = styled.input`
