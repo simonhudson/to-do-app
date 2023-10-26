@@ -3,7 +3,7 @@ import { spacingRem } from '@/theme/spacing';
 
 export const CheckboxWrap = styled.div`
 	label {
-		margin-left: ${spacingRem.xsm};
+		margin: 0 ${spacingRem.md} 0 ${spacingRem.xsm};
 	}
 `;
 
