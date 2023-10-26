@@ -4,7 +4,8 @@ import type { Item } from '@/types/item';
 import type { Categories } from '@/types/categories';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { getItems, getCategories } from '@/helpers/api';
-import { Button, ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, Actions } from '@/theme/styles';
+import { ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, Actions } from '@/theme/styles';
+import { Button } from '@/components/form/form.styles';
 import { AddItem } from '@/components/add-item';
 import Modal from '@/components/modal';
 

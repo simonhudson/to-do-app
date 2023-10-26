@@ -1,6 +1,8 @@
 import React from 'react';
-import { FieldRow, Label, Input, Button, Fieldset, Legend } from '@/theme/styles';
-import { AddItemProps } from './types';
+import { FieldRow, Label, Input, Button, Fieldset, Legend } from '@/components/form/form.styles';
+import type { AddItemProps } from './types';
+import { Checkbox } from '@/components/form/checkbox';
+import { CheckboxGroup } from '@/components/form/checkbox/index.styles';
 
 export const AddItem = ({
 	categoriesData,
@@ -25,20 +27,19 @@ export const AddItem = ({
 				</FieldRow>
 				<Fieldset>
 					<Legend>Categories</Legend>
-					{categoriesData.map((category) => {
-						return (
-							<React.Fragment key={`categories-${category._id}`}>
-								<input
-									id={`categories-${category._id}`}
-									name={`categories-${category._id}`}
-									onChange={(e) => handleCategoryChange(e)}
-									type="checkbox"
+					<CheckboxGroup>
+						{categoriesData.map((category) => {
+							return (
+								<Checkbox
+									id={category._id}
+									key={`category-${category._id}`}
+									label={category.value}
+									onChange={handleCategoryChange}
 									value={category._id}
 								/>
-								<label htmlFor={`categories-${category._id}`}>{category.value}</label>
-							</React.Fragment>
-						);
-					})}
+							);
+						})}
+					</CheckboxGroup>
 				</Fieldset>
 				<Button>Add item</Button>
 			</form>
