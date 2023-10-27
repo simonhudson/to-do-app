@@ -36,7 +36,7 @@ export const sendDeleteResponsePayload = (response: DeleteResult, res: NextApiRe
 };
 
 const doGet = async (path: string) => {
-	const response = await fetch(`${process.env.API_DOMAIN}/api/to-do/${path}`);
+	const response = await fetch(`${process.env.API_DOMAIN}/api/to-do/${path}`, { method: 'get' });
 	const data = await response.json();
 	return data;
 };
@@ -49,4 +49,4 @@ const doPut = async (path: string) => {
 
 export const getItems = async () => doGet('items');
 export const getCategories = async () => doGet('categories');
-export const updateItem = async () => doPut('item');
+export const updateItem = async () => doPut('items');
