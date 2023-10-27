@@ -1,11 +1,6 @@
 import mongoClient from '@/db/mongoClient';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import {
-	sendGetResponsePayload,
-	sendPostResponsePayload,
-	sendPutResponsePayload,
-	sendDeleteResponsePayload,
-} from '@/helpers/api';
+import { sendResponsePayload } from '@/helpers/api';
 import { ObjectId } from 'mongodb';
 const COLLECTION_NAME = 'items';
 
@@ -15,13 +10,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const doGet = async () => {
 		const response = await db.collection(COLLECTION_NAME).find({}).sort({}).toArray();
-		sendGetResponsePayload(response, res);
+		sendResponsePayload(response, res);
 	};
 
 	const doPost = async () => {
 		const body = JSON.parse(req.body);
 		const response = await db.collection(COLLECTION_NAME).insertOne(body);
-		sendPostResponsePayload(response, res);
+		sendResponsePayload(response, res);
 	};
 
 	const doPut = async () => {
@@ -35,14 +30,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			},
 		};
 		const response = await db.collection(COLLECTION_NAME).updateOne(query, newValues);
-		sendPutResponsePayload(response, res);
+		sendResponsePayload(response, res);
 	};
 
 	const doDelete = async () => {
 		const body = JSON.parse(req.body);
 		const query = { _id: new ObjectId(body._id) };
 		const response = await db.collection(COLLECTION_NAME).deleteOne(query);
-		sendDeleteResponsePayload(response, res);
+		sendResponsePayload(response, res);
 	};
 
 	const METHOD = req.method?.toLowerCase();

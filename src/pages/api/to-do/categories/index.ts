@@ -1,6 +1,6 @@
 import mongoClient from '@/db/mongoClient';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { sendGetResponsePayload, sendPostResponsePayload } from '@/helpers/api';
+import { sendResponsePayload } from '@/helpers/api';
 const COLLECTION_NAME = 'categories';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,12 +11,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	switch (METHOD) {
 		case 'get':
 			const getResponse = await db.collection(COLLECTION_NAME).find({}).sort({}).toArray();
-			sendGetResponsePayload(getResponse, res);
+			sendResponsePayload(getResponse, res);
 			break;
 		case 'post':
 			const body = JSON.parse(req.body);
 			const postResponse = await db.collection(COLLECTION_NAME).insertOne(body);
-			sendPostResponsePayload(postResponse, res);
+			sendResponsePayload(postResponse, res);
 			break;
 	}
 };

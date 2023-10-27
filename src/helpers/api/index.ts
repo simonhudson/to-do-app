@@ -1,38 +1,19 @@
 import type { NextApiResponse } from 'next';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { DeleteResult, InsertOneResult, UpdateResult, WithId } from 'mongodb';
+import type { ResponsePayload } from './types.d';
 
-export const sendGetResponsePayload = (response: WithId<any>[], res: NextApiResponse) => {
-	const responsePayload = {
-		status: response.length > 0 ? httpStatusCodes.OK : httpStatusCodes.NOT_FOUND,
-		metadata: { count: response.length },
+export const sendResponsePayload = (
+	response: WithId<any>[] | InsertOneResult<Document> | UpdateResult<Document> | DeleteResult,
+	res: NextApiResponse
+) => {
+	const payload: ResponsePayload = {
+		status: httpStatusCodes.OK,
 		data: response,
 	};
-	res.json(responsePayload);
-};
 
-export const sendPostResponsePayload = (response: InsertOneResult<Document>, res: NextApiResponse) => {
-	const responsePayload = {
-		status: response.acknowledged ? httpStatusCodes.OK : httpStatusCodes.NOT_FOUND,
-		data: response,
-	};
-	res.json(responsePayload);
-};
-
-export const sendPutResponsePayload = (response: UpdateResult<Document>, res: NextApiResponse) => {
-	const responsePayload = {
-		status: response.acknowledged ? httpStatusCodes.OK : httpStatusCodes.NOT_FOUND,
-		data: response,
-	};
-	res.json(responsePayload);
-};
-
-export const sendDeleteResponsePayload = (response: DeleteResult, res: NextApiResponse) => {
-	const responsePayload = {
-		status: response.acknowledged ? httpStatusCodes.OK : httpStatusCodes.NOT_FOUND,
-		data: response,
-	};
-	res.json(responsePayload);
+	if (Array.isArray(response) && response.length > 0) payload.metadata = { count: response.length };
+	res.json(payload);
 };
 
 const doGet = async (path: string) => {
