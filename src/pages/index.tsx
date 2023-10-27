@@ -8,6 +8,7 @@ import { ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, Actions } fro
 import { Button } from '@/components/form/form.styles';
 import { AddItem } from '@/components/add-item';
 import Modal from '@/components/modal';
+import { sanitizeString } from '@/helpers/sanitizeString';
 
 export const getServerSideProps = async () => {
 	try {
@@ -93,7 +94,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 		if (formFieldValues.name) {
 			const postResponse = await fetch('/api/to-do/items', {
 				method: 'post',
-				body: JSON.stringify(formFieldValues),
+				body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
 			});
 			setModalIsOpen(false);
 			refreshData(postResponse);
