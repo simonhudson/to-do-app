@@ -9,6 +9,10 @@ const setEnvVars = () => {
 };
 
 const nextConfig = {
+	compiler: {
+		// Enables the styled-components SWC transform
+		styledComponents: true,
+	},
 	env: setEnvVars(),
 	poweredByHeader: false,
 	async headers() {
