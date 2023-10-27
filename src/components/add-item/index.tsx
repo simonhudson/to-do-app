@@ -44,7 +44,6 @@ export const AddItem = ({
 				</Fieldset>
 				<Button>Add item</Button>
 			</Form>
-			{statusMessage && <p>{statusMessage}</p>}
 		</>
 	);
 };

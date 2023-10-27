@@ -1,4 +1,4 @@
-import Modal from './index';
+import { Modal } from './index';
 import { screen, render, fireEvent } from '@testing-library/react';
 
 describe('Modal', () => {

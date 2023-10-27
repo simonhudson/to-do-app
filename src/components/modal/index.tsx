@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Overlay, Wrapper, CloseButton } from './index.styles';
 import type { ModalProps } from './types';
 
-const Modal = ({ children, onClose }: ModalProps) => {
+export const Modal = ({ children, onClose }: ModalProps) => {
 	const [hideModal, setHideModal] = useState<boolean>(false);
 
 	return (
@@ -25,5 +25,3 @@ const Modal = ({ children, onClose }: ModalProps) => {
 		</>
 	);
 };
-
-export default Modal;

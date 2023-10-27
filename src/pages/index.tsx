@@ -7,7 +7,7 @@ import { getItems, getCategories } from '@/helpers/api';
 import { ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, Actions } from '@/theme/styles';
 import { Button } from '@/components/form/form.styles';
 import { AddItem } from '@/components/add-item';
-import Modal from '@/components/modal';
+import { Modal } from '@/components/modal';
 import { sanitizeString } from '@/helpers/sanitizeString';
 
 export const getServerSideProps = async () => {
