@@ -1,7 +1,6 @@
 import type { NextApiResponse } from 'next';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { DeleteResult, InsertOneResult, UpdateResult, WithId } from 'mongodb';
-import type { Item } from '@/types/item';
 
 export const sendGetResponsePayload = (response: WithId<any>[], res: NextApiResponse) => {
 	const responsePayload = {
