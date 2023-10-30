@@ -12,17 +12,19 @@ export const AddItem = ({
 	handleNameChange,
 	nameFieldValue,
 	onSubmit,
-	statusMessage,
 }: AddItemProps) => {
 	return (
 		<>
 			<Form onSubmit={onSubmit}>
 				<FieldRow>
 					<Input
+						errorText="Please enter a name for your item"
+						description="(e.g. Pick up milk)"
 						id="name"
+						isInvalid={true}
 						label="Name"
 						onChange={handleNameChange}
-						placeholder="(e.g. Pick up milk)"
+						required={true}
 						value={nameFieldValue}
 					/>
 				</FieldRow>

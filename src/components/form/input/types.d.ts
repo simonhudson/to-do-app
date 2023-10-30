@@ -1,6 +1,7 @@
 import { FormFieldProps } from '@/components/form/types';
 
 export interface InputProps extends FormFieldProps {
+	description?: string;
 	placeholder?: string;
 	type?:
 		| 'button'

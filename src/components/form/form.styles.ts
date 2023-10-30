@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { rem } from 'polished';
 import { spacingRem } from '@/theme/spacing';
 import { palette } from '@/theme/palette';
 
@@ -13,13 +14,19 @@ export const FieldRow = styled.div`
 export const Label = styled.label`
 	display: block;
 	font-weight: bold;
-	padding: 0 0 ${spacingRem.sm};
+	padding: 0 0 ${spacingRem.xsm};
 `;
 
 export const InputField = styled.input`
 	border: 1px solid ${palette.primary.grey};
 	border-radius: ${spacingRem.xsm};
 	padding: ${spacingRem.sm};
+
+	${(props) =>
+		props['aria-invalid'] === true &&
+		css`
+			border: 1px solid red;
+		`}
 `;
 
 export const Button = styled.button`
@@ -35,4 +42,16 @@ export const Fieldset = styled.fieldset``;
 
 export const Legend = styled.legend`
 	font-weight: bold;
+`;
+
+export const Description = styled.span`
+	display: block;
+	font-size: ${rem(14)};
+	font-weight: normal;
+	padding: 0 0 ${spacingRem.xsm};
+`;
+
+export const ErrorText = styled.span`
+	color: red;
+	display: block;
 `;
