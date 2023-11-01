@@ -10,6 +10,7 @@ export const AddItem = ({
 	categoriesData,
 	handleCategoryChange,
 	handleNameChange,
+	isInvalid,
 	nameFieldValue,
 	onSubmit,
 }: AddItemProps) => {
@@ -21,7 +22,7 @@ export const AddItem = ({
 						errorText="Please enter a name for your item"
 						description="(e.g. Pick up milk)"
 						id="name"
-						isInvalid={true}
+						isInvalid={isInvalid.name}
 						label="Name"
 						onChange={handleNameChange}
 						required={true}
