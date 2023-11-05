@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { H1, H2 } from '@/theme/typography';
 import type { Item } from '@/types/item';
 import type { Categories } from '@/types/categories';
@@ -13,11 +13,9 @@ import { sanitizeString } from '@/helpers/sanitizeString';
 export const getServerSideProps = async () => {
 	try {
 		const items = await getItems();
-		const categories = await getCategories();
 		return {
 			props: {
 				itemsData: items.data,
-				categoriesData: categories.data,
 			},
 		};
 	} catch (error) {
@@ -33,7 +31,11 @@ interface FormFieldValues {
 	isComplete: boolean;
 }
 
-const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Categories[] }) => {
+const Home = ({ itemsData }: { itemsData: Item[] }) => {
+	console.log('itemsData----------------');
+	console.log(itemsData[1].categories);
+	console.log('/itemsData----------------');
+
 	const defaultFormFieldValues = {
 		name: '',
 		categories: [],
@@ -45,14 +47,14 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 	const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
 	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
-	const parseCategories = (categories: string[]) => {
-		const returnValue: string[] = [];
-		categories.forEach((category) => {
-			const data = categoriesData.find((item) => item._id === category);
-			if (data) returnValue.push(data.value);
-		});
-		return returnValue.join(', ');
-	};
+	// const parseCategories = (categories: string[]) => {
+	// 	const returnValue: string[] = [];
+	// 	categories.forEach((category) => {
+	// 		const data = categoriesData.find((item) => item._id === category);
+	// 		if (data) returnValue.push(data.value);
+	// 	});
+	// 	return returnValue.join(', ');
+	// };
 
 	const clearFormFieldValues = () => {
 		setFormFieldValues(defaultFormFieldValues);
@@ -129,7 +131,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 					<ItemsItem id={`item-${item._id}`} key={`item-${item._id}`}>
 						<ItemInfo>
 							<ItemName>{item.name}</ItemName>
-							{item.categories && <ItemCategories>{parseCategories(item.categories)}</ItemCategories>}
+							{item.categories && <ItemCategories>{item.categories.join(', ')}</ItemCategories>}
 						</ItemInfo>
 						<Actions>
 							<Button onClick={() => updateItemState(item)}>

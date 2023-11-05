@@ -1,5 +1,5 @@
 import { FormEventHandler } from 'react';
-import { Categories } from '@/types/categories';
+import { Category } from '@/types/category';
 
 export interface AddItemProps {
 	categoriesData: Categories[];

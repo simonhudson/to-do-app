@@ -2,32 +2,68 @@ import type { NextApiResponse } from 'next';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { DeleteResult, InsertOneResult, UpdateResult, WithId } from 'mongodb';
 import type { ResponsePayload } from './types.d';
+import type { Item } from '@/types/item';
+
+const API_URL = `${process.env.API_DOMAIN}/api/to-do/`;
 
 export const sendResponsePayload = (
 	response: WithId<any>[] | InsertOneResult<Document> | UpdateResult<Document> | DeleteResult,
 	res: NextApiResponse
 ) => {
+	const returnPayload = (payload: ResponsePayload) => res.json(payload);
+
 	const payload: ResponsePayload = {
 		status: httpStatusCodes.OK,
 		data: response,
 	};
 
-	if (Array.isArray(response) && response.length > 0) payload.metadata = { count: response.length };
-	res.json(payload);
+	// console.log('payload-1---------------');
+	// console.log(payload.data[1]);
+	// console.log('/payload-1---------------');
+
+	if (Array.isArray(response) && response.length > 0) {
+		payload.metadata = { count: response.length };
+		// 	if (payload.data.length) {
+		// 		payload.data.forEach(async (item: Item) => {
+		// 			if (item.categories && item.categories.length) {
+		// 				const categoryValues = await getCategoryValues(item.categories.join(','));
+		// 				delete item.categories;
+		// 				item.categories = [];
+		// 				categoryValues.data.forEach((itemValue: { value: string }) => {
+		// 					item.categories.push(itemValue.value);
+		// 				});
+		// 				console.log('payload-2---------------');
+		// 				console.log(payload.data[1]);
+		// 				console.log('/payload-2---------------');
+		// 				return returnPayload(payload);
+		// 			}
+		// 		});
+		// 	} else {
+		// 		console.log('payload-3---------------');
+		// 		console.log(payload.data[1]);
+		// 		console.log('/payload-3---------------');
+		// 		return returnPayload(payload);
+		// 	}
+	}
+	// console.log('payload-4---------------');
+	// console.log(payload.data[1]);
+	// console.log('/payload-4---------------');
+	return returnPayload(payload);
 };
 
 const doGet = async (path: string) => {
-	const response = await fetch(`${process.env.API_DOMAIN}/api/to-do/${path}`, { method: 'get' });
+	const response = await fetch(`${API_URL}${path}`, { method: 'get' });
 	const data = await response.json();
 	return data;
 };
 
 const doPut = async (path: string) => {
-	const response = await fetch(`${process.env.API_DOMAIN}/api/to-do/${path}`, { method: 'put' });
+	const response = await fetch(`${API_URL}${path}`, { method: 'put' });
 	const data = await response.json();
 	return data;
 };
 
 export const getItems = async () => doGet('items');
 export const getCategories = async () => doGet('categories');
+export const getCategoryValues = async (ids: string) => doGet(`categories/values?ids=${ids}`);
 export const updateItem = async () => doPut('items');
