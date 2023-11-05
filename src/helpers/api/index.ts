@@ -10,7 +10,7 @@ export const sendResponsePayload = (
 	response: WithId<any>[] | InsertOneResult<Document> | UpdateResult<Document> | DeleteResult,
 	res: NextApiResponse
 ) => {
-	const returnPayload = (payload: ResponsePayload) => res.json(payload);
+	const returnPayload = (payload: ResponsePayload): void => res.json(payload);
 
 	const payload: ResponsePayload = {
 		status: httpStatusCodes.OK,
@@ -22,33 +22,33 @@ export const sendResponsePayload = (
 	// console.log('/payload-1---------------');
 
 	if (Array.isArray(response) && response.length > 0) {
+		console.log(`>>> : ${1}`);
 		payload.metadata = { count: response.length };
-		// 	if (payload.data.length) {
-		// 		payload.data.forEach(async (item: Item) => {
-		// 			if (item.categories && item.categories.length) {
-		// 				const categoryValues = await getCategoryValues(item.categories.join(','));
-		// 				delete item.categories;
-		// 				item.categories = [];
-		// 				categoryValues.data.forEach((itemValue: { value: string }) => {
-		// 					item.categories.push(itemValue.value);
-		// 				});
-		// 				console.log('payload-2---------------');
-		// 				console.log(payload.data[1]);
-		// 				console.log('/payload-2---------------');
-		// 				return returnPayload(payload);
-		// 			}
-		// 		});
-		// 	} else {
-		// 		console.log('payload-3---------------');
-		// 		console.log(payload.data[1]);
-		// 		console.log('/payload-3---------------');
-		// 		return returnPayload(payload);
-		// 	}
+		if (payload.data.length) {
+			console.log(`>>> : ${2}`);
+			payload.data.forEach(async (item: Item) => {
+				console.log(`>>> : ${3}`);
+				if (item.categories && item.categories.length) {
+					console.log(`>>> : ${4}`);
+					const categoryValues = await getCategoryValues(item.categories.join(','));
+					const categoryValueStrings: string[] = [];
+					categoryValues.data.forEach((item: { value: string }) => categoryValueStrings.push(item.value));
+					// delete item.categories;
+					// item.categories = [];
+					// categoryValues.data.forEach((itemValue: { value: string }) => {
+					// 	item.categories.push(itemValue.value);
+					// });
+					item.foo = [...categoryValueStrings];
+					console.log('item----------------');
+					console.log(item);
+					console.log('/item----------------');
+
+					return returnPayload(payload);
+				}
+			});
+		}
 	}
-	// console.log('payload-4---------------');
-	// console.log(payload.data[1]);
-	// console.log('/payload-4---------------');
-	return returnPayload(payload);
+	returnPayload(payload);
 };
 
 const doGet = async (path: string) => {

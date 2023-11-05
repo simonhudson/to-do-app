@@ -3,4 +3,5 @@ export interface Item {
 	name: string;
 	is_complete: boolean;
 	categories?: string[];
+	foo?: string[];
 }

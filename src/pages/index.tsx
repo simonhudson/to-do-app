@@ -33,7 +33,7 @@ interface FormFieldValues {
 
 const Home = ({ itemsData }: { itemsData: Item[] }) => {
 	console.log('itemsData----------------');
-	console.log(itemsData[1].categories);
+	console.log(itemsData[1]);
 	console.log('/itemsData----------------');
 
 	const defaultFormFieldValues = {
