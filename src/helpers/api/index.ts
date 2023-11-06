@@ -33,5 +33,4 @@ const doPut = async (path: string) => {
 
 export const getItems = async () => doGet('items');
 export const getCategories = async () => doGet('categories');
-export const getCategoryValues = async (ids: string) => doGet(`categories/values?ids=${ids}`);
 export const updateItem = async () => doPut('items');
