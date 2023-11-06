@@ -10,7 +10,7 @@ export const AddItem = ({
 	categoriesData,
 	handleCategoryChange,
 	handleNameChange,
-	isInvalid,
+	isInvalid = {},
 	nameFieldValue,
 	onSubmit,
 }: AddItemProps) => {

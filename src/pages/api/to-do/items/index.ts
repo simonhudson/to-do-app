@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 					},
 				},
 
-				// Now that we have our new 'categories' key (which is an array of objects)
+				// Now that we have our new 'categories' key (which is an array of objects pulled from the collection)
 				//	we use $addFields with $map to strip this down to a simple array of strings
 				{
 					$addFields: {

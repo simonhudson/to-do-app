@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { H1, H2 } from '@/theme/typography';
 import type { Item } from '@/types/item';
+import type { Category } from '@/types/category';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
-import { getItems } from '@/helpers/api';
+import { getItems, getCategories } from '@/helpers/api';
 import { ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, Actions } from '@/theme/styles';
 import { Button } from '@/components/form/form.styles';
 import { AddItem } from '@/components/add-item';
@@ -12,9 +13,11 @@ import { sanitizeString } from '@/helpers/sanitizeString';
 export const getServerSideProps = async () => {
 	try {
 		const items = await getItems();
+		const categories = await getCategories();
 		return {
 			props: {
 				itemsData: items.data,
+				categoriesData: categories.data,
 			},
 		};
 	} catch (error) {
@@ -36,7 +39,7 @@ const defaultFormFieldValues: FormFieldValues = {
 	isComplete: false,
 };
 
-const Home = ({ itemsData }: { itemsData: Item[] }) => {
+const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Category[] }) => {
 	const [statusMessage, setStatusMessage] = useState<string>('');
 	const [items, setItems] = useState<Item[]>(itemsData);
 	const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
@@ -149,7 +152,6 @@ const Home = ({ itemsData }: { itemsData: Item[] }) => {
 						handleNameChange={handleNameChange}
 						nameFieldValue={formFieldValues.name}
 						onSubmit={submitForm}
-						statusMessage={statusMessage}
 					/>
 				</Modal>
 			)}
