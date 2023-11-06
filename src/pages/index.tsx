@@ -30,13 +30,13 @@ export const getServerSideProps = async () => {
 interface FormFieldValues {
 	name: string;
 	categories: string[];
-	isComplete: boolean;
+	is_complete: boolean;
 }
 
 const defaultFormFieldValues: FormFieldValues = {
 	name: '',
 	categories: [],
-	isComplete: false,
+	is_complete: false,
 };
 
 const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Category[] }) => {
@@ -88,17 +88,6 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 		});
 		setModalIsOpen(false);
 		refreshData(postResponse);
-		// e.preventDefault();
-		// if (formFieldValues.name) {
-		// 	const postResponse = await fetch('/api/to-do/items', {
-		// 		method: 'post',
-		// 		body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
-		// 	});
-		// 	setModalIsOpen(false);
-		// 	refreshData(postResponse);
-		// } else {
-		// 	setStatusMessage('Please enter a Name for your item.');
-		// }
 	};
 
 	const updateItemState = async (item: Item) => {
@@ -127,7 +116,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 					<ItemsItem id={`item-${item._id}`} key={`item-${item._id}`}>
 						<ItemInfo>
 							<ItemName>{item.name}</ItemName>
-							{item.categories && <ItemCategories>{item.categories.join(', ')}</ItemCategories>}
+							{item.categoryValues && <ItemCategories>{item.categoryValues.join(', ')}</ItemCategories>}
 						</ItemInfo>
 						<Actions>
 							<Button onClick={() => updateItemState(item)}>

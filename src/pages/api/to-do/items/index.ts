@@ -17,17 +17,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 						from: 'categories', // Collection we want to query
 						localField: 'categories', // Local field we want to match against
 						foreignField: 'category_id', // Foreign field we want to query
-						as: 'categories', // Key name we want to create (if this already exists, it will be over-written)
+						as: 'categoryValues', // Key name we want to create (if this already exists, it will be over-written)
 					},
 				},
 
-				// Now that we have our new 'categories' key (which is an array of objects pulled from the collection)
+				// Now that we have our new 'categoryValues' key (which is an array of objects pulled from the collection)
 				//	we use $addFields with $map to strip this down to a simple array of strings
 				{
 					$addFields: {
-						categories: {
+						categoryValues: {
 							$map: {
-								input: '$categories',
+								input: '$categoryValues',
 								in: '$$this.value',
 							},
 						},
@@ -35,7 +35,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				},
 			])
 			.toArray();
-
 		sendResponsePayload(response, res);
 	};
 

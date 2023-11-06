@@ -1,7 +1,8 @@
 export interface Item {
 	_id: string;
-	name: string;
-	is_complete: boolean;
 	categories?: string[];
+	categoryValues?: string[];
 	foo?: string[];
+	is_complete: boolean;
+	name: string;
 }
