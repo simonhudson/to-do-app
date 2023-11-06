@@ -9,7 +9,30 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const db = client.db(process.env.DB_NAME);
 
 	const doGet = async () => {
-		const response = await db.collection(COLLECTION_NAME).find({}).sort({}).toArray();
+		const response = await db
+			.collection(COLLECTION_NAME)
+			.aggregate([
+				{
+					$lookup: {
+						from: 'categories',
+						localField: 'categories',
+						foreignField: 'category_id',
+						as: 'categories',
+					},
+				},
+				{
+					$addFields: {
+						categories: {
+							$map: {
+								input: '$categories',
+								in: '$$this.value',
+							},
+						},
+					},
+				},
+			])
+			.toArray();
+
 		sendResponsePayload(response, res);
 	};
 

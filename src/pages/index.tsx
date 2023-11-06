@@ -31,30 +31,17 @@ interface FormFieldValues {
 	isComplete: boolean;
 }
 
+const defaultFormFieldValues: FormFieldValues = {
+	name: '',
+	categories: [],
+	isComplete: false,
+};
+
 const Home = ({ itemsData }: { itemsData: Item[] }) => {
-	console.log('itemsData----------------');
-	console.log(itemsData[1]);
-	console.log('/itemsData----------------');
-
-	const defaultFormFieldValues = {
-		name: '',
-		categories: [],
-		isComplete: false,
-	};
-
 	const [statusMessage, setStatusMessage] = useState<string>('');
 	const [items, setItems] = useState<Item[]>(itemsData);
 	const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
 	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-
-	// const parseCategories = (categories: string[]) => {
-	// 	const returnValue: string[] = [];
-	// 	categories.forEach((category) => {
-	// 		const data = categoriesData.find((item) => item._id === category);
-	// 		if (data) returnValue.push(data.value);
-	// 	});
-	// 	return returnValue.join(', ');
-	// };
 
 	const clearFormFieldValues = () => {
 		setFormFieldValues(defaultFormFieldValues);
