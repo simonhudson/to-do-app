@@ -14,12 +14,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			.aggregate([
 				{
 					$lookup: {
-						from: 'categories',
-						localField: 'categories',
-						foreignField: 'category_id',
-						as: 'categories',
+						from: 'categories', // Collection we want to query
+						localField: 'categories', // Local field we want to match against
+						foreignField: 'category_id', // Foreign field we want to query
+						as: 'categories', // Key name we want to create (if this already exists, it will be over-written)
 					},
 				},
+
+				// Now that we have our new 'categories' key (which is an array of objects)
+				//	we use $addFields with $map to strip this down to a simple array of strings
 				{
 					$addFields: {
 						categories: {

@@ -42,7 +42,7 @@ export const ItemCategories = styled.span`
 `;
 
 export const Actions = styled.div`
-	align-self: flex-start;
+	align-self: center;
 	display: flex;
 	gap: ${spacingRem.sm};
 	justify-content: flex-end;
