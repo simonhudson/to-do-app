@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, useState } from 'react';
 import { Label, InputField, Description, ErrorText } from '@/components/form/form.styles';
 import type { InputProps } from './types';
 
@@ -6,7 +6,6 @@ export const Input = ({
 	errorText,
 	description,
 	id,
-	isInvalid,
 	label,
 	onChange,
 	placeholder = '',
@@ -14,10 +13,21 @@ export const Input = ({
 	required,
 	value = '',
 }: InputProps) => {
+	const fieldRef = createRef<HTMLInputElement>();
+
+	const [isInvalid, setIsInvalid] = useState<boolean>(false);
+
 	const fieldId = `input-${id}`;
 
 	let describedByElement = isInvalid ? `error--${fieldId}` : '';
 	if (description) describedByElement = describedByElement + ` description--${fieldId}`;
+
+	const validateOnBlur = () => {
+		if (required) {
+			const value = fieldRef?.current?.value;
+			if (!value) setIsInvalid(true);
+		}
+	};
 
 	return (
 		<>
@@ -30,10 +40,13 @@ export const Input = ({
 				aria-required={required}
 				id={fieldId}
 				name={fieldId}
+				onBlur={() => validateOnBlur()}
 				onChange={(e) => {
 					if (onChange) onChange(e);
 				}}
+				onFocus={() => setIsInvalid(false)}
 				placeholder={placeholder}
+				ref={fieldRef}
 				type={type}
 				value={value}
 			/>

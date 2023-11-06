@@ -1,6 +1,6 @@
 import React from 'react';
-import type { CheckboxProps } from './types';
 import { CheckboxWrap } from './index.styles';
+import type { CheckboxProps } from './types';
 
 export const Checkbox = ({ id, label, onChange, value }: CheckboxProps) => {
 	const fieldId = `checkbox-${id}`;

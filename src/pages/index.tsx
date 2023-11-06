@@ -82,16 +82,23 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 
 	const submitForm = async (e: { preventDefault: Function }) => {
 		e.preventDefault();
-		if (formFieldValues.name) {
-			const postResponse = await fetch('/api/to-do/items', {
-				method: 'post',
-				body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
-			});
-			setModalIsOpen(false);
-			refreshData(postResponse);
-		} else {
-			setStatusMessage('Please enter a Name for your item.');
-		}
+		const postResponse = await fetch('/api/to-do/items', {
+			method: 'post',
+			body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
+		});
+		setModalIsOpen(false);
+		refreshData(postResponse);
+		// e.preventDefault();
+		// if (formFieldValues.name) {
+		// 	const postResponse = await fetch('/api/to-do/items', {
+		// 		method: 'post',
+		// 		body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
+		// 	});
+		// 	setModalIsOpen(false);
+		// 	refreshData(postResponse);
+		// } else {
+		// 	setStatusMessage('Please enter a Name for your item.');
+		// }
 	};
 
 	const updateItemState = async (item: Item) => {

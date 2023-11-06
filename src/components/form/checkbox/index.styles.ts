@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { spacingRem } from '@/theme/spacing';
 import { FieldRow } from '../form.styles';
+import { spacingRem } from '@/theme/spacing';
 
 export const CheckboxWrap = styled.div`
 	label {
@@ -8,7 +8,7 @@ export const CheckboxWrap = styled.div`
 	}
 `;
 
-export const CheckboxGroup = styled(FieldRow)`
+export const CheckboxGroupWrap = styled(FieldRow)`
 	display: flex;
 	justify-content: flex-start;
 	flex-wrap: wrap;

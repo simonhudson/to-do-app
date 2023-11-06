@@ -1,3 +1,4 @@
+import { RefObject } from 'react';
 import { FormFieldProps } from '@/components/form/types';
 
 export interface InputProps extends FormFieldProps {
