@@ -2,9 +2,8 @@ import type { NextApiResponse } from 'next';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { DeleteResult, InsertOneResult, UpdateResult, WithId } from 'mongodb';
 import type { ResponsePayload } from './types.d';
-import type { Item } from '@/types/item';
 
-const API_URL = `${process.env.API_DOMAIN}/api/to-do/`;
+const API_PATH = `/api/to-do/`;
 
 export const sendResponsePayload = (
 	response: WithId<any>[] | InsertOneResult<Document> | UpdateResult<Document> | DeleteResult,
@@ -20,12 +19,14 @@ export const sendResponsePayload = (
 };
 
 const doGet = async (path: string) => {
+	const API_URL = `${process.env.API_DOMAIN}${API_PATH}`;
 	const response = await fetch(`${API_URL}${path}`, { method: 'get' });
 	const data = await response.json();
 	return data;
 };
 
 const doPut = async (path: string) => {
+	const API_URL = `${process.env.API_DOMAIN}${API_PATH}`;
 	const response = await fetch(`${API_URL}${path}`, { method: 'put' });
 	const data = await response.json();
 	return data;

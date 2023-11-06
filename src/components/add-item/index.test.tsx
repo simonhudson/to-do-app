@@ -12,7 +12,6 @@ describe('AddItem', () => {
 		handleNameChange: jest.fn(),
 		nameFieldValue: 'field-value',
 		onSubmit: jest.fn().mockImplementation((e) => e.preventDefault()),
-		statusMessage: 'status message',
 	};
 
 	it('should render as expected', () => {
@@ -23,6 +22,7 @@ describe('AddItem', () => {
 		expect(screen.getByRole('textbox')).toBeInTheDocument();
 		expect(screen.getByPlaceholderText('(e.g. Pick up milk)')).toBeInTheDocument();
 		expect(screen.getByLabelText('Name')).toBeInTheDocument();
+		expect(screen.getByText('What do you need to remember?')).toBeInTheDocument();
 		const checkboxes = screen.getAllByRole('checkbox');
 		expect(checkboxes.length).toEqual(2);
 		expect(checkboxes[0].getAttribute('id')).toEqual('checkbox-cat-1');

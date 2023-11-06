@@ -18,10 +18,11 @@ export const AddItem = ({
 				<FieldRow>
 					<Input
 						errorText="Please enter a name for your item"
-						description="(e.g. Pick up milk)"
+						description="What do you need to remember?"
 						id="name"
 						label="Name"
 						onChange={handleNameChange}
+						placeholder="(e.g. Pick up milk)"
 						required={true}
 						value={nameFieldValue}
 					/>
