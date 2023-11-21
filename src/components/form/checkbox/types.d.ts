@@ -4,7 +4,7 @@ export interface CheckboxProps extends FormFieldProps {}
 
 export interface CheckboxGroupProps {
 	handleCategoryChange?: Function;
-	items: CheckboxProps[];
+	items: array;
 	legend: string;
 	required?: boolean;
 }
