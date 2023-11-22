@@ -3,7 +3,7 @@ import { rem } from 'polished';
 import { spacingRem } from '@/theme/spacing';
 import { palette } from '@/theme/palette';
 
-export const Form = styled.form`
+export const StyledForm = styled.form`
 	text-align: left;
 `;
 
@@ -22,11 +22,9 @@ export const InputField = styled.input`
 	border-radius: ${spacingRem.xsm};
 	padding: ${spacingRem.sm};
 
-	${(props) =>
-		props['aria-invalid'] === true &&
-		css`
-			border: 1px solid red;
-		`}
+	&[aria-invalid='true'] {
+		border: 2px solid red;
+	}
 `;
 
 export const Button = styled.button`
@@ -46,7 +44,7 @@ export const Legend = styled.legend`
 
 export const Description = styled.span`
 	display: block;
-	font-size: ${rem(14)};
+	font-size: ${rem(13)};
 	font-weight: normal;
 	padding: 0 0 ${spacingRem.xsm};
 `;
@@ -54,4 +52,5 @@ export const Description = styled.span`
 export const ErrorText = styled.span`
 	color: red;
 	display: block;
+	padding: 0 0 ${spacingRem.xsm};
 `;

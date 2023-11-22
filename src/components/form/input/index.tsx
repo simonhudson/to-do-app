@@ -19,6 +19,10 @@ export const Input = ({
 
 	const fieldId = `input-${id}`;
 
+	const describedByElements = [];
+	if (isInvalid) describedByElements.push(`error--${fieldId}`);
+	if (description) describedByElements.push(`description--${fieldId}`);
+
 	let describedByElement = isInvalid ? `error--${fieldId}` : '';
 	if (description) describedByElement = describedByElement + ` description--${fieldId}`;
 
@@ -35,7 +39,7 @@ export const Input = ({
 			{description && <Description id={`description--${fieldId}`}>{description}</Description>}
 			{isInvalid && <ErrorText id={`error--${fieldId}`}>{errorText}</ErrorText>}
 			<InputField
-				aria-describedby={describedByElement}
+				aria-describedby={describedByElements.join(' ')}
 				aria-invalid={isInvalid}
 				aria-required={required}
 				id={fieldId}

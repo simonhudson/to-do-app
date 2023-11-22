@@ -6,5 +6,4 @@ export interface AddItemProps {
 	handleCategoryChange: Function;
 	handleNameChange: Function;
 	nameFieldValue: string;
-	onSubmit: FormEventHandler;
 }

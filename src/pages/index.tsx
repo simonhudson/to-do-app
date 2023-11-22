@@ -9,6 +9,7 @@ import { Button } from '@/components/form/form.styles';
 import { AddItem } from '@/components/add-item';
 import { Modal } from '@/components/modal';
 import { sanitizeString } from '@/helpers/sanitizeString';
+import { Input } from '@/components/form/input';
 
 export const getServerSideProps = async () => {
 	try {
@@ -27,22 +28,22 @@ export const getServerSideProps = async () => {
 	}
 };
 
-interface FormFieldValues {
-	name: string;
-	categories: string[];
-	is_complete: boolean;
-}
+// interface FormFieldValues {
+// 	name: string;
+// 	categories: string[];
+// 	is_complete: boolean;
+// }
 
-const defaultFormFieldValues: FormFieldValues = {
-	name: '',
-	categories: [],
-	is_complete: false,
-};
+// const defaultFormFieldValues: FormFieldValues = {
+// 	name: '',
+// 	categories: [],
+// 	is_complete: false,
+// };
 
 const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Category[] }) => {
 	const [statusMessage, setStatusMessage] = useState<string>('');
 	const [items, setItems] = useState<Item[]>(itemsData);
-	const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
+	// const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
 	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
 	const clearFormFieldValues = () => {
@@ -80,15 +81,15 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 		setFormFieldValues({ ...formFieldValues, name: e.target.value });
 	};
 
-	const submitForm = async (e: { preventDefault: Function }) => {
-		e.preventDefault();
-		const postResponse = await fetch('/api/to-do/items', {
-			method: 'post',
-			body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
-		});
-		setModalIsOpen(false);
-		refreshData(postResponse);
-	};
+	// const submitForm = async (e: { preventDefault: Function }) => {
+	// 	e.preventDefault();
+	// 	const postResponse = await fetch('/api/to-do/items', {
+	// 		method: 'post',
+	// 		body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
+	// 	});
+	// 	setModalIsOpen(false);
+	// 	refreshData(postResponse);
+	// };
 
 	const updateItemState = async (item: Item) => {
 		const putResponse = await fetch('/api/to-do/items', {
@@ -139,7 +140,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 			{renderIncompleteList()}
 			<H2>Complete</H2>
 			{renderCompleteList()}
-			<Button onClick={() => setModalIsOpen(true)}>Add new item</Button>
+			{/* <Button onClick={() => setModalIsOpen(true)}>Add new item</Button>
 			{modalIsOpen && (
 				<Modal onClose={() => setModalIsOpen(false)}>
 					<AddItem
@@ -150,7 +151,22 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 						onSubmit={submitForm}
 					/>
 				</Modal>
-			)}
+			)} */}
+			{/* <AddItem
+				categoriesData={categoriesData}
+				handleCategoryChange={handleCategoryChange}
+				handleNameChange={handleNameChange}
+				nameFieldValue={formFieldValues.name}
+			/> */}
+			<Input
+				errorText="Please enter a name for your item"
+				description="What do you need to remember?"
+				id="name"
+				label="Name"
+				onChange={handleNameChange}
+				required={true}
+				value={''}
+			/>
 		</>
 	) : null;
 };
