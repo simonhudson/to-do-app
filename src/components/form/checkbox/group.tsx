@@ -4,7 +4,7 @@ import { CheckboxGroupWrap } from '@/components/form/checkbox/index.styles';
 import { Fieldset, Legend } from '@/components/form/form.styles';
 import type { CheckboxGroupProps, CheckboxProps } from './types';
 
-export const CheckboxGroup = ({ required, handleCategoryChange, legend, items }: CheckboxGroupProps) => {
+export const CheckboxGroup = ({ required, handleItemChange, legend, items }: CheckboxGroupProps) => {
 	return (
 		<Fieldset>
 			<Legend>{legend}</Legend>
@@ -12,10 +12,11 @@ export const CheckboxGroup = ({ required, handleCategoryChange, legend, items }:
 				{items.map((item: CheckboxProps) => {
 					return (
 						<Checkbox
-							id={item._id ?? ''}
+							_id={item._id}
+							id={item._id}
 							key={`category-${item._id}`}
 							label={item.value}
-							onChange={handleCategoryChange}
+							onChange={handleItemChange}
 							value={item._id}
 						/>
 					);

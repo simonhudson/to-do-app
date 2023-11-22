@@ -6,7 +6,6 @@ describe('Checkbox', () => {
 	const props: CheckboxProps = {
 		id: 'id-1',
 		label: 'Some label',
-		onChange: jest.fn(),
 		value: 'value-1',
 	};
 
@@ -24,14 +23,16 @@ describe('Checkbox', () => {
 		expect(screen.getByLabelText('Some label')).toBeInTheDocument();
 	});
 
-	it('should handle onChange event', () => {
+	it('onChange event', () => {
 		// Given
-		render(<Checkbox {...props} />);
+		const newProps = { ...props };
+		newProps.onChange = jest.fn();
+		render(<Checkbox {...newProps} />);
 
 		// When
 		fireEvent.click(screen.getByRole('checkbox'));
 
 		// Then
-		expect(props.onChange).toHaveBeenCalledTimes(1);
+		expect(newProps.onChange).toHaveBeenCalledTimes(1);
 	});
 });

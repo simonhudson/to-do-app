@@ -47,7 +47,7 @@ export const AddItem = ({ categoriesData, handleCategoryChange, handleNameChange
 				</FieldRow>
 				<CheckboxGroup
 					items={categoriesData}
-					handleCategoryChange={handleCategoryChange}
+					handleItemChange={handleCategoryChange}
 					legend="Choose categories"
 					required={true}
 				/>

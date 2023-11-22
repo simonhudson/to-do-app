@@ -3,7 +3,7 @@ import { FormFieldProps } from '@/components/form/types';
 export interface CheckboxProps extends FormFieldProps {}
 
 export interface CheckboxGroupProps {
-	handleCategoryChange?: Function;
+	handleItemChange?: Function;
 	items: CheckboxProps[];
 	legend: string;
 	required?: boolean;

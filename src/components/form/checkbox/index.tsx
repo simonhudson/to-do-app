@@ -13,7 +13,7 @@ export const Checkbox = ({ id, label, onChange, value }: CheckboxProps) => {
 					if (onChange) onChange(e);
 				}}
 				type="checkbox"
-				value={value ?? ''}
+				value={value}
 			/>
 			<label htmlFor={fieldId}>{label}</label>
 		</CheckboxWrap>

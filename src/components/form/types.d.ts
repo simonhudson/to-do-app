@@ -1,5 +1,5 @@
 export interface FormFieldProps {
-	_id?: string;
+	_id: string;
 	errorText?: string;
 	id: string;
 	isInvalid?: boolean;
