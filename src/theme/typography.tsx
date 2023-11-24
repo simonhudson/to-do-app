@@ -9,9 +9,9 @@ export const H1 = styled.h1`
 	color: ${palette.primary.bodyText};
 	font-family: ${font.sansSerif};
 	font-size: ${rem(30)};
-	font-weight: 400;
+	font-weight: 700;
 	line-height: ${rem(50)};
-	margin: 0;
+	margin: ${spacingRem.md} 0;
 
 	${media.tabletLandscape(`
 		font-size: ${rem(40)};

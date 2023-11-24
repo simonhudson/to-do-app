@@ -1,22 +1,23 @@
-import { breakpoints } from './breakpoints';
+import { Breakpoints } from './breakpoints';
 
 const applyStyles = (viewportWidth: number, styles: string): string =>
 	`@media (min-width: ${viewportWidth}px) { ${styles} }`;
 
-interface Media {
-	phonePortrait: (string: string) => string;
-	phoneLandscape: (string: string) => string;
-	tabletPortrait: (string: string) => string;
-	tabletLandscape: (string: string) => string;
-	desktop: (string: string) => string;
-	prefersReducedMotion: (string: string) => string;
-}
+type Media = {
+	[key in
+		| 'phonePortrait'
+		| 'phoneLandscape'
+		| 'tabletPortrait'
+		| 'tabletLandscape'
+		| 'desktop'
+		| 'prefersReducedMotion']: (string: string) => string;
+};
 
 export const media: Media = {
-	phonePortrait: (styles: string) => applyStyles(breakpoints['phone-p'], styles),
-	phoneLandscape: (styles: string) => applyStyles(breakpoints['phone-l'], styles),
-	tabletPortrait: (styles: string) => applyStyles(breakpoints['tablet-p'], styles),
-	tabletLandscape: (styles: string) => applyStyles(breakpoints['tablet-l'], styles),
-	desktop: (styles: string) => applyStyles(breakpoints.desktop, styles),
-	prefersReducedMotion: (styles: string) => `@media (prefers-reduced-motion: reduce) { ${styles} }`
+	phonePortrait: (styles: string) => applyStyles(Breakpoints.phonePortrait, styles),
+	phoneLandscape: (styles: string) => applyStyles(Breakpoints.phoneLandscape, styles),
+	tabletPortrait: (styles: string) => applyStyles(Breakpoints.tabletPortrait, styles),
+	tabletLandscape: (styles: string) => applyStyles(Breakpoints.tabletLandscape, styles),
+	desktop: (styles: string) => applyStyles(Breakpoints.desktop, styles),
+	prefersReducedMotion: (styles: string) => `@media (prefers-reduced-motion: reduce) { ${styles} }`,
 };

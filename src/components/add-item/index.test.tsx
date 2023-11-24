@@ -5,8 +5,8 @@
 // describe('AddItem', () => {
 // 	const props: AddItemProps = {
 // 		categoriesData: [
-// 			{ _id: 'cat-1', value: 'Cat 1' },
-// 			{ _id: 'cat-2', value: 'Cat 2' },
+// 			{ id: 'cat-1', value: 'Cat 1' },
+// 			{ id: 'cat-2', value: 'Cat 2' },
 // 		],
 // 		handleCategoryChange: jest.fn(),
 // 		handleNameChange: jest.fn(),

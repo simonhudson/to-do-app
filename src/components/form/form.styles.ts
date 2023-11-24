@@ -4,6 +4,8 @@ import { spacingRem } from '@/theme/spacing';
 import { palette } from '@/theme/palette';
 
 export const StyledForm = styled.form`
+	background: #f5f5f5;
+	padding: ${spacingRem.md};
 	text-align: left;
 `;
 

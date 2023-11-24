@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { spacingRem } from '@/theme/spacing';
+import { BASE_SIZE, spacingRem } from '@/theme/spacing';
 import { media } from '@/theme/media';
+import { palette } from '@/theme/palette';
+import { BoxShadow } from '@/theme/layout';
 
 export const ItemsList = styled.ul`
 	list-style: none;
@@ -9,12 +11,14 @@ export const ItemsList = styled.ul`
 
 export const ItemsItem = styled.li`
 	align-items: center;
-	background: #eee;
+	background: ${palette.primary.white};
+	border-radius: ${spacingRem.xsm};
+	box-shadow: ${BoxShadow};
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 0 ${spacingRem.sm};
-	padding: ${spacingRem.sm};
+	padding: ${spacingRem.md};
 
 	${media.tabletPortrait(`
 		flex-direction: row;
@@ -26,7 +30,7 @@ export const ItemInfo = styled.div`
 	padding: 0 0 ${spacingRem.sm};
 
 	${media.tabletPortrait(`
-	align-self: auto;
+		align-self: auto;
 		padding: 0;
 	`)}
 `;

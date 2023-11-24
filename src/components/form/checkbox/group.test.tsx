@@ -7,7 +7,6 @@ describe('CheckboxGroup', () => {
 		handleItemChange: jest.fn(),
 		items: [
 			{
-				_id: '_id-1',
 				errorText: 'error text 1',
 				id: 'id-1',
 				isInvalid: false,
@@ -17,7 +16,6 @@ describe('CheckboxGroup', () => {
 				value: 'value-1',
 			},
 			{
-				_id: '_id-2',
 				errorText: 'error text 2',
 				id: 'id-2',
 				isInvalid: false,

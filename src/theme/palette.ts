@@ -27,7 +27,7 @@ export const palette: Palette = {
 		lightGrey: '#f9f9f9',
 	},
 	status: {
-		error: '#fbebe6',
+		error: '#bb0000',
 		info: '#CCDEFA',
 		success: '#e6f7ed',
 		warning: '#FEF7E6',

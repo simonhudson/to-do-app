@@ -12,7 +12,6 @@ export const CheckboxGroup = ({ required, handleItemChange, legend, items }: Che
 				{items.map((item: CheckboxProps) => {
 					return (
 						<Checkbox
-							_id={item._id}
 							id={item._id}
 							key={`category-${item._id}`}
 							label={item.value}

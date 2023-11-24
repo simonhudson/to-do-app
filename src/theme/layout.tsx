@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
 import { media } from './media';
-import { breakpoints } from './breakpoints';
+import { Breakpoints } from './breakpoints';
 import { spacingRem } from './spacing';
 import { palette } from './palette';
 import { ReactNode } from 'react';
@@ -15,11 +15,11 @@ export const Wrap = styled.div`
 	}
 
 	${media.tabletLandscape(`
-		width: ${rem(breakpoints['tablet-l'] + 'px')};
+		width: ${rem(Breakpoints.tabletLandscape + 'px')};
 	`)};
 
 	${media.desktop(`
-		width: ${rem(breakpoints.desktop + 'px')};
+		width: ${rem(Breakpoints.desktop + 'px')};
 	`)};
 `;
 
@@ -63,7 +63,7 @@ export const Section = ({ children, className }: SectionProps) => {
 	);
 };
 
-export const BoxShadow = `0 0 10px #ddd`;
+export const BoxShadow = `0 0 5px #ddd`;
 
 export const ButtonLink = styled.a`
 	background: transparent;

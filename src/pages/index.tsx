@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { H1, H2 } from '@/theme/typography';
-import type { Item } from '@/types/item';
-import type { Category } from '@/types/category';
+import { H1 } from '@/theme/typography';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { getItems, getCategories } from '@/helpers/api';
 import { ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, Actions } from '@/theme/styles';
-import { Button } from '@/components/form/form.styles';
 import { AddItem } from '@/components/add-item';
-import { Modal } from '@/components/modal';
 import { sanitizeString } from '@/helpers/sanitizeString';
-import { Input } from '@/components/form/input';
+import { ButtonRow, Button } from '@/components/button';
+
+import type { Item } from '@/types/item';
+import type { Category } from '@/types/category';
 
 export const getServerSideProps = async () => {
 	try {
@@ -28,23 +27,23 @@ export const getServerSideProps = async () => {
 	}
 };
 
-// interface FormFieldValues {
-// 	name: string;
-// 	categories: string[];
-// 	is_complete: boolean;
-// }
+interface FormFieldValues {
+	name: string;
+	categories: string[];
+	is_complete: boolean;
+}
 
-// const defaultFormFieldValues: FormFieldValues = {
-// 	name: '',
-// 	categories: [],
-// 	is_complete: false,
-// };
+const defaultFormFieldValues: FormFieldValues = {
+	name: '',
+	categories: [],
+	is_complete: false,
+};
 
 const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Category[] }) => {
 	const [statusMessage, setStatusMessage] = useState<string>('');
 	const [items, setItems] = useState<Item[]>(itemsData);
-	// const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
-	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+	const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
+	const [currentView, setCurrentView] = useState<'incomplete' | 'complete'>('incomplete');
 
 	const clearFormFieldValues = () => {
 		setFormFieldValues(defaultFormFieldValues);
@@ -81,33 +80,20 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 		setFormFieldValues({ ...formFieldValues, name: e.target.value });
 	};
 
-	// const submitForm = async (e: { preventDefault: Function }) => {
-	// 	e.preventDefault();
-	// 	const postResponse = await fetch('/api/to-do/items', {
-	// 		method: 'post',
-	// 		body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
-	// 	});
-	// 	setModalIsOpen(false);
-	// 	refreshData(postResponse);
-	// };
-
-	const updateItemState = async (item: Item) => {
-		const putResponse = await fetch('/api/to-do/items', {
-			method: 'put',
-			body: JSON.stringify({
-				...item,
-				is_complete: !item.is_complete,
-			}),
+	const submitForm = async (e: { preventDefault: Function }) => {
+		e.preventDefault();
+		const postResponse = await fetch('/api/to-do/items', {
+			method: 'post',
+			body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
 		});
-		refreshData(putResponse);
+		refreshData(postResponse);
 	};
 
-	const deleteItem = async (item: Item) => {
-		const deleteResponse = await fetch('/api/to-do/items', {
-			method: 'delete',
-			body: JSON.stringify(item),
-		});
-		refreshData(deleteResponse);
+	const updateItem = async (item: Item, deleteItem = false) => {
+		const method = deleteItem ? 'delete' : 'put';
+		const body = deleteItem ? JSON.stringify(item) : JSON.stringify({ ...item, is_complete: !item.is_complete });
+		const response = await fetch('/api/to-do/items', { method, body });
+		refreshData(response);
 	};
 
 	const renderList = (items: Item[]) => (
@@ -120,10 +106,17 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 							{item.categoryValues && <ItemCategories>{item.categoryValues.join(', ')}</ItemCategories>}
 						</ItemInfo>
 						<Actions>
-							<Button onClick={() => updateItemState(item)}>
-								{item.is_complete ? 'Add to To-do' : 'Complete'}
-							</Button>
-							<Button onClick={() => deleteItem(item)}>Delete</Button>
+							<Button
+								onClick={() => updateItem(item)}
+								label={item.is_complete ? 'Add to To-do' : 'Complete'}
+								size="small"
+							/>
+							<Button
+								onClick={() => updateItem(item, true)}
+								label="Delete"
+								isDestructive={true}
+								size="small"
+							/>
 						</Actions>
 					</ItemsItem>
 				);
@@ -136,36 +129,25 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 
 	return itemsData ? (
 		<>
-			<H1>To-do</H1>
-			{renderIncompleteList()}
-			<H2>Complete</H2>
-			{renderCompleteList()}
-			{/* <Button onClick={() => setModalIsOpen(true)}>Add new item</Button>
-			{modalIsOpen && (
-				<Modal onClose={() => setModalIsOpen(false)}>
-					<AddItem
-						categoriesData={categoriesData}
-						handleCategoryChange={handleCategoryChange}
-						handleNameChange={handleNameChange}
-						nameFieldValue={formFieldValues.name}
-						onSubmit={submitForm}
-					/>
-				</Modal>
-			)} */}
-			{/* <AddItem
+			<H1>To-do app</H1>
+			<ButtonRow>
+				<Button
+					onClick={() => setCurrentView('incomplete')}
+					label={`Incomplete (${items.filter((item) => !item.is_complete).length})`}
+				/>
+				<Button
+					onClick={() => setCurrentView('incomplete')}
+					label={`Complete (${items.filter((item) => item.is_complete).length})`}
+				/>
+			</ButtonRow>
+			{currentView === 'incomplete' && renderIncompleteList()}
+			{currentView === 'complete' && renderCompleteList()}
+			<AddItem
 				categoriesData={categoriesData}
 				handleCategoryChange={handleCategoryChange}
 				handleNameChange={handleNameChange}
 				nameFieldValue={formFieldValues.name}
-			/> */}
-			<Input
-				errorText="Please enter a name for your item"
-				description="What do you need to remember?"
-				id="name"
-				label="Name"
-				onChange={handleNameChange}
-				required={true}
-				value={''}
+				onSubmit={submitForm}
 			/>
 		</>
 	) : null;
