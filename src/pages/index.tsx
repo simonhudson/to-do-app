@@ -127,6 +127,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 									size="small"
 								/>
 								<Button
+									icon="trash"
 									onClick={() => updateItem(item, true)}
 									label="Delete"
 									isDestructive={true}
