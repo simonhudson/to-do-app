@@ -1,13 +1,11 @@
-import { breakpoints } from './breakpoints';
+import { Breakpoints } from './breakpoints';
 
 describe('theme/breakpoints', () => {
 	it('should return expected values', () => {
-		expect(breakpoints).toEqual({
-			'phone-p': 420,
-			'phone-l': 650,
-			'tablet-p': 768,
-			'tablet-l': 1024,
-			desktop: 1200,
-		});
+		expect(Breakpoints.phonePortrait).toEqual(420);
+		expect(Breakpoints.phoneLandscape).toEqual(650);
+		expect(Breakpoints.tabletPortrait).toEqual(768);
+		expect(Breakpoints.tabletLandscape).toEqual(1024);
+		expect(Breakpoints.desktop).toEqual(1200);
 	});
 });

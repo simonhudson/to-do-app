@@ -1,13 +1,13 @@
 import React from 'react';
-import Icon from './index';
-import { render } from '@/test/utils';
+import { Icon } from './index';
+import { render } from '../../../test/utils';
 import { screen } from '@testing-library/react';
+import type { IconProps } from './types.d';
 
 describe('Icon', () => {
 	it(`should render as expected`, () => {
 		// Given
 		const props = {
-			type: 'solid',
 			name: 'foo',
 			className: 'bar',
 		};
@@ -17,9 +17,9 @@ describe('Icon', () => {
 		// Then
 		const icon = screen.getByRole('img', { hidden: true });
 		expect(icon).toBeInTheDocument();
-		expect(icon).toHaveClass('fas fa-foo bar');
+		expect(icon).toHaveClass('fa-solid fa-foo bar');
 		expect(icon).toHaveAttribute('aria-hidden', 'true');
 	});
 
-	const initialise = (props) => render(<Icon type={props.type} name={props.name} className={props.className} />);
+	const initialise = (props: IconProps) => render(<Icon name={props.name} className={props.className} />);
 });

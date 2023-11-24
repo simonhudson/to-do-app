@@ -1,10 +1,8 @@
 import { httpStatusCodes } from './httpStatusCodes';
 describe('httpStatusCodes', () => {
 	it('should return expected values', () => {
-		expect(httpStatusCodes).toEqual({
-			OK: 200,
-			NOT_FOUND: 404,
-			SERVER_ERROR: 500,
-		});
+		expect(httpStatusCodes.OK).toEqual(200);
+		expect(httpStatusCodes.NOT_FOUND).toEqual(404);
+		expect(httpStatusCodes.SERVER_ERROR).toEqual(500);
 	});
 });
