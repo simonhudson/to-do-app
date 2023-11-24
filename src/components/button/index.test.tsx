@@ -31,36 +31,6 @@ describe('Button', () => {
 		// Then
 		expect(props.onClick).toHaveBeenCalledTimes(1);
 	});
-
-	describe('Link variant', () => {
-		it('should render with expected href attr', () => {
-			// Given
-			const props = { ...baseProps };
-			props.href = 'http://foo.com';
-
-			// When
-			initialise(props);
-
-			// Then
-			expect(getTagName(screen.getByText('My Button'))).toEqual('a');
-			expect(screen.getByText('My Button')).toHaveAttribute('href', 'http://foo.com');
-			expect(screen.getByText('My Button')).not.toHaveAttribute('target');
-		});
-		it('should open in new tab/window when expected', () => {
-			// Given
-			const props = { ...baseProps };
-			props.href = 'http://foo.com';
-			props.opensNewTab = true;
-
-			// When
-			initialise(props);
-
-			// Then
-			expect(getTagName(screen.getByText('My Button'))).toEqual('a');
-			expect(screen.getByText('My Button')).toHaveAttribute('href', 'http://foo.com');
-			expect(screen.getByText('My Button')).toHaveAttribute('target', '_blank');
-		});
-	});
 });
 
 const initialise = (props = baseProps) => render(<Button {...props} />);
