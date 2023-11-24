@@ -1,8 +1,9 @@
 import { MouseEvent, ReactNode } from 'react';
-import { StyledButtonRow, StyledButton } from './index.styles';
+import { StyledButtonRow, StyledButton, StyledIcon } from './index.styles';
 import type { IButton } from './types.d';
 
 export const Button = ({
+	icon,
 	isDestructive = false,
 	isWide = false,
 	label,
@@ -21,6 +22,7 @@ export const Button = ({
 			data-variant={variant}
 		>
 			{label}
+			{icon && <StyledIcon name={icon} className={icon} />}
 		</StyledButton>
 	);
 };

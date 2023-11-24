@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { H1 } from '@/theme/typography';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { getItems, getCategories } from '@/helpers/api';
-import { ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, Actions } from '@/theme/styles';
+import { ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, ItemCategoriesIcon, Actions } from '@/theme/styles';
 import { AddItem } from '@/components/add-item';
 import { sanitizeString } from '@/helpers/sanitizeString';
 import { ButtonRow, Button } from '@/components/button';
@@ -39,15 +39,14 @@ const defaultFormFieldValues: FormFieldValues = {
 	is_complete: false,
 };
 
-const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Category[] }) => {
-	console.log('----------------');
-	console.log(categoriesData);
-	console.log('----------------');
+const INCOMPLETE = 'incomplete';
+const COMPLETE = 'complete';
 
+const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Category[] }) => {
 	const [statusMessage, setStatusMessage] = useState<string>('');
 	const [items, setItems] = useState<Item[]>(itemsData);
 	const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
-	const [currentView, setCurrentView] = useState<'incomplete' | 'complete'>('incomplete');
+	const [currentView, setCurrentView] = useState<'incomplete' | 'complete'>(INCOMPLETE);
 
 	const clearFormFieldValues = () => {
 		setFormFieldValues(defaultFormFieldValues);
@@ -91,6 +90,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 			body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
 		});
 		refreshData(postResponse);
+		setCurrentView(INCOMPLETE);
 	};
 
 	const updateItem = async (item: Item, deleteItem = false) => {
@@ -100,52 +100,60 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 		refreshData(response);
 	};
 
-	const renderList = (items: Item[]) => (
-		<ItemsList>
-			{items.map((item) => {
-				return (
-					<ItemsItem id={`item-${item._id}`} key={`item-${item._id}`}>
-						<ItemInfo>
-							<ItemName>{item.name}</ItemName>
-							{item.categoryValues && <ItemCategories>{item.categoryValues.join(', ')}</ItemCategories>}
-						</ItemInfo>
-						<Actions>
-							<Button
-								onClick={() => updateItem(item)}
-								label={item.is_complete ? 'Add to To-do' : 'Complete'}
-								size="small"
-							/>
-							<Button
-								onClick={() => updateItem(item, true)}
-								label="Delete"
-								isDestructive={true}
-								size="small"
-							/>
-						</Actions>
-					</ItemsItem>
-				);
-			})}
-		</ItemsList>
-	);
-
-	const renderIncompleteList = () => renderList(items.filter((item) => !item.is_complete));
-	const renderCompleteList = () => renderList(items.filter((item) => item.is_complete));
+	const renderList = () => {
+		const filteredItems =
+			currentView === INCOMPLETE
+				? items.filter((item) => !item.is_complete)
+				: items.filter((item) => item.is_complete);
+		return (
+			<ItemsList>
+				{filteredItems.map((item) => {
+					return (
+						<ItemsItem id={`item-${item._id}`} key={`item-${item._id}`}>
+							<ItemInfo>
+								<ItemName>{item.name}</ItemName>
+								{item.categoryValues && (
+									<ItemCategories>
+										<ItemCategoriesIcon name="tag" />
+										{item.categoryValues.join(', ')}
+									</ItemCategories>
+								)}
+							</ItemInfo>
+							<Actions>
+								<Button
+									icon={`${item.is_complete ? 'plus' : 'check'}`}
+									onClick={() => updateItem(item)}
+									label={item.is_complete ? 'Add to To-do' : 'Done'}
+									size="small"
+								/>
+								<Button
+									onClick={() => updateItem(item, true)}
+									label="Delete"
+									isDestructive={true}
+									size="small"
+								/>
+							</Actions>
+						</ItemsItem>
+					);
+				})}
+			</ItemsList>
+		);
+	};
 
 	return itemsData ? (
 		<>
 			<H1>To-do app</H1>
 			<ButtonRow>
 				<Button
-					onClick={() => setCurrentView('incomplete')}
-					label={`Incomplete (${items.filter((item) => !item.is_complete).length})`}
+					onClick={() => setCurrentView(INCOMPLETE)}
+					label={`To-do (${items.filter((item) => !item.is_complete).length})`}
 				/>
 				<Button
-					onClick={() => setCurrentView('incomplete')}
-					label={`Complete (${items.filter((item) => item.is_complete).length})`}
+					onClick={() => setCurrentView(COMPLETE)}
+					label={`Done (${items.filter((item) => item.is_complete).length})`}
 				/>
 			</ButtonRow>
-			{currentView === 'incomplete' && renderIncompleteList()}
-			{currentView === 'complete' && renderCompleteList()}
+			{renderList()}
 			<AddItem
 				categoriesData={categoriesData}
 				handleCategoryChange={handleCategoryChange}

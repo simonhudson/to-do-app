@@ -3,6 +3,7 @@ import { rem } from 'polished';
 import { BASE_SIZE, spacingRem } from '@/theme/spacing';
 import { palette } from '@/theme/palette';
 import { font } from '@/theme/font';
+import { Icon } from '@/components/icon';
 
 export const StyledButton = styled.button`
 	align-items: center;
@@ -80,4 +81,9 @@ export const StyledButton = styled.button`
 export const StyledButtonRow = styled.div`
 	display: flex;
 	gap: ${spacingRem.md};
+`;
+
+export const StyledIcon = styled(Icon)`
+	color: ${palette.primary.white};
+	margin-left: ${spacingRem.sm};
 `;

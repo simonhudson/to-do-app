@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { rem } from 'polished';
-import { BASE_SIZE, spacingRem } from '@/theme/spacing';
+import { spacingRem } from '@/theme/spacing';
 import { media } from '@/theme/media';
 import { palette } from '@/theme/palette';
 import { BoxShadow } from '@/theme/layout';
+import { Icon } from '@/components/icon';
 
 export const ItemsList = styled.ul`
 	list-style: none;
@@ -43,6 +44,11 @@ export const ItemName = styled.span`
 export const ItemCategories = styled.span`
 	display: block;
 	font-size: ${rem(14)};
+`;
+
+export const ItemCategoriesIcon = styled(Icon)`
+	color: ${palette.primary.bodyText};
+	margin-right: ${spacingRem.sm};
 `;
 
 export const Actions = styled.div`
