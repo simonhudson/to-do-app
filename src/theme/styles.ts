@@ -19,7 +19,10 @@ export const InnerWrapper = styled.div`
 
 export const ItemsList = styled.ul`
 	list-style: none;
-	width: 60%;
+
+	${media.tabletLandscape(`
+		width: 60%;
+	`)}
 `;
 
 export const ItemsItem = styled.li`
