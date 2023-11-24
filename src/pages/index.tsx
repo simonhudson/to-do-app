@@ -40,6 +40,10 @@ const defaultFormFieldValues: FormFieldValues = {
 };
 
 const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData: Category[] }) => {
+	console.log('----------------');
+	console.log(categoriesData);
+	console.log('----------------');
+
 	const [statusMessage, setStatusMessage] = useState<string>('');
 	const [items, setItems] = useState<Item[]>(itemsData);
 	const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);

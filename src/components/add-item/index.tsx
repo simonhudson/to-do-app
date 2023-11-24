@@ -17,6 +17,7 @@ export const AddItem = ({
 			<Form onSubmit={(e: MouseEvent) => onSubmit(e)}>
 				<FieldRow>
 					<Input
+						_id="name"
 						errorText="Please enter a name for your item"
 						description="What do you need to remember?"
 						id="name"
