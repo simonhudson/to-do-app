@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import { H1 } from '@/theme/typography';
 import { httpStatusCodes } from '@/constants/httpStatusCodes';
 import { getItems, getCategories } from '@/helpers/api';
-import { ItemsList, ItemsItem, ItemInfo, ItemName, ItemCategories, ItemCategoriesIcon, Actions } from '@/theme/styles';
+import {
+	InnerWrapper,
+	ItemsList,
+	ItemsItem,
+	ItemInfo,
+	ItemName,
+	ItemCategories,
+	ItemCategoriesIcon,
+	Actions,
+} from '@/theme/styles';
 import { AddItem } from '@/components/add-item';
 import { sanitizeString } from '@/helpers/sanitizeString';
 import { ButtonRow, Button } from '@/components/button';
@@ -143,7 +152,6 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 
 	return itemsData ? (
 		<>
-			<H1>To-do app</H1>
 			<ButtonRow>
 				<Button
 					onClick={() => setCurrentView(INCOMPLETE)}
@@ -154,14 +162,16 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 					label={`Done (${items.filter((item) => item.is_complete).length})`}
 				/>
 			</ButtonRow>
-			{renderList()}
-			<AddItem
-				categoriesData={categoriesData}
-				handleCategoryChange={handleCategoryChange}
-				handleNameChange={handleNameChange}
-				nameFieldValue={formFieldValues.name}
-				onSubmit={submitForm}
-			/>
+			<InnerWrapper>
+				{renderList()}
+				<AddItem
+					categoriesData={categoriesData}
+					handleCategoryChange={handleCategoryChange}
+					handleNameChange={handleNameChange}
+					nameFieldValue={formFieldValues.name}
+					onSubmit={submitForm}
+				/>
+			</InnerWrapper>
 		</>
 	) : null;
 };

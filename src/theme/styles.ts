@@ -6,8 +6,20 @@ import { palette } from '@/theme/palette';
 import { BoxShadow } from '@/theme/layout';
 import { Icon } from '@/components/icon';
 
+export const InnerWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: ${spacingRem.md};
+	justify-content: space-between;
+
+	${media.tabletLandscape(`
+		flex-direction: row;
+	`)}
+`;
+
 export const ItemsList = styled.ul`
 	list-style: none;
+	width: 60%;
 `;
 
 export const ItemsItem = styled.li`

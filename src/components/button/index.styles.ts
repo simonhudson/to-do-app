@@ -12,8 +12,12 @@ export const StyledButton = styled.button`
 	font-family: ${font.sansSerif};
 	font-weight: bold;
 	font-size: ${rem(BASE_SIZE)};
-	padding: ${spacingRem.default};
+	padding: ${spacingRem.default} ${spacingRem.md};
 	text-decoration: none;
+
+	&[data-is-wide='true'] {
+		padding: ${spacingRem.default} ${spacingRem.lg};
+	}
 
 	&:focus-visible {
 		outline: 6px solid orange;

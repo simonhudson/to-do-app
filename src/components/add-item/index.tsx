@@ -1,8 +1,9 @@
 import React, { MouseEvent } from 'react';
 import { CheckboxGroup } from '@/components/form/checkbox/group';
-import { FieldRow, Button } from '@/components/form/form.styles';
+import { FieldRow } from '@/components/form/form.styles';
 import { Form } from '@/components/form';
 import { Input } from '@/components/form/input';
+import { Button } from '@/components/button';
 import type { AddItemProps } from './types';
 
 export const AddItem = ({
@@ -34,7 +35,7 @@ export const AddItem = ({
 					legend="Choose categories"
 					required={true}
 				/>
-				<Button>Add item</Button>
+				<Button label="Add item" isWide={true} />
 			</Form>
 		</>
 	);
