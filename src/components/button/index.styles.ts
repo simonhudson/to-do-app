@@ -81,13 +81,3 @@ export const StyledButtonRow = styled.div`
 	display: flex;
 	gap: ${spacingRem.md};
 `;
-
-// 	if (size === 'x-large') {
-// 		values.font.size = rem(BASE_SIZE * 1.5);
-// 		values.padding = [
-// 			`${spacingRem.default}`,
-// 			isWide ? `${spacingRem.xlg}` : `${spacingRem.default}`,
-// 			`${spacingRem.default}`,
-// 			isWide ? `${spacingRem.xlg}` : `${spacingRem.default}`,
-// 		];
-// 	}
