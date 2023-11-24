@@ -121,9 +121,9 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 							</ItemInfo>
 							<Actions>
 								<Button
-									icon={`${item.is_complete ? 'plus' : 'check'}`}
+									icon={`${item.is_complete ? 'list' : 'check'}`}
 									onClick={() => updateItem(item)}
-									label={item.is_complete ? 'Add to To-do' : 'Done'}
+									label={item.is_complete ? 'To-do' : 'Done'}
 									size="small"
 								/>
 								<Button

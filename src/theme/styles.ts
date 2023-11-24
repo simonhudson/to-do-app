@@ -16,10 +16,9 @@ export const ItemsItem = styled.li`
 	border-radius: ${spacingRem.xsm};
 	box-shadow: ${BoxShadow};
 	display: flex;
-	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 0 ${spacingRem.sm};
-	padding: ${spacingRem.md};
+	padding: ${spacingRem.default};
 
 	${media.tabletPortrait(`
 		flex-direction: row;
@@ -39,6 +38,7 @@ export const ItemInfo = styled.div`
 export const ItemName = styled.span`
 	display: block;
 	font-weight: bold;
+	margin-bottom: ${spacingRem.sm};
 `;
 
 export const ItemCategories = styled.span`
@@ -54,6 +54,18 @@ export const ItemCategoriesIcon = styled(Icon)`
 export const Actions = styled.div`
 	align-self: center;
 	display: flex;
+	flex-direction: column;
 	gap: ${spacingRem.sm};
 	justify-content: flex-end;
+	margin-left: ${spacingRem.default};
+	max-width: ${rem(100)};
+	min-width: ${rem(100)};
+	width: ${rem(100)};
+
+	${media.phoneLandscape(`
+		flex-direction: row;
+		max-width: ${rem(205)};
+		min-width: ${rem(205)};
+		width: ${rem(205)};
+	`)}
 `;
