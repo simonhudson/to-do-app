@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useState, useEffect } from 'react';
 import { Label, InputField, Description, ErrorText } from '@/components/form/form.styles';
 import type { InputProps } from './types';
 
@@ -11,11 +11,16 @@ export const Input = ({
 	placeholder = '',
 	type = 'text',
 	required,
+	showAsInvalid = false,
 	value = '',
 }: InputProps) => {
 	const fieldRef = createRef<HTMLInputElement>();
 
-	const [isInvalid, setIsInvalid] = useState<boolean>(false);
+	const [isInvalid, setIsInvalid] = useState<boolean>(showAsInvalid);
+
+	useEffect(() => {
+		setIsInvalid(showAsInvalid);
+	}, [showAsInvalid]);
 
 	const fieldId = `input-${id}`;
 

@@ -10,5 +10,6 @@ export interface FormFieldProps {
 	label?: string;
 	onChange?: Function;
 	required?: boolean;
+	showAsInvalid?: boolean;
 	value?: string;
 }

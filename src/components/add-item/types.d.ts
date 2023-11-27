@@ -7,4 +7,5 @@ export interface AddItemProps {
 	handleNameChange: Function;
 	nameFieldValue: string;
 	onSubmit: Function;
+	showNameFieldAsInvalid?: boolean;
 }

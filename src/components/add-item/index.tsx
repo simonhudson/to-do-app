@@ -12,6 +12,7 @@ export const AddItem = ({
 	handleNameChange,
 	nameFieldValue,
 	onSubmit,
+	showNameFieldAsInvalid,
 }: AddItemProps) => {
 	return (
 		<>
@@ -27,6 +28,7 @@ export const AddItem = ({
 						placeholder="(e.g. Pick up milk)"
 						required={true}
 						value={nameFieldValue}
+						showAsInvalid={showNameFieldAsInvalid}
 					/>
 				</FieldRow>
 				<CheckboxGroup

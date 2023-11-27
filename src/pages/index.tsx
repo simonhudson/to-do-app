@@ -56,6 +56,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 	const [items, setItems] = useState<Item[]>(itemsData);
 	const [formFieldValues, setFormFieldValues] = useState<FormFieldValues>(defaultFormFieldValues);
 	const [currentView, setCurrentView] = useState<'incomplete' | 'complete'>(INCOMPLETE);
+	const [showNameFieldAsInvalid, setShowNameFieldAsInvalid] = useState<boolean>(false);
 
 	const clearFormFieldValues = () => {
 		setFormFieldValues(defaultFormFieldValues);
@@ -93,13 +94,20 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 	};
 
 	const submitForm = async (e: { preventDefault: Function }) => {
+		const isValid = !!formFieldValues.name.length;
 		e.preventDefault();
-		const postResponse = await fetch('/api/to-do/items', {
-			method: 'post',
-			body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
-		});
-		refreshData(postResponse);
-		setCurrentView(INCOMPLETE);
+		if (isValid) {
+			const postResponse = await fetch('/api/to-do/items', {
+				method: 'post',
+				body: JSON.stringify({ ...formFieldValues, name: sanitizeString(formFieldValues.name) }),
+			});
+			refreshData(postResponse);
+			setCurrentView(INCOMPLETE);
+		} else {
+			if (formFieldValues.name.length === 0) {
+				setShowNameFieldAsInvalid(true);
+			}
+		}
 	};
 
 	const updateItem = async (item: Item, deleteItem = false) => {
@@ -180,6 +188,7 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 					handleNameChange={handleNameChange}
 					nameFieldValue={formFieldValues.name}
 					onSubmit={submitForm}
+					showNameFieldAsInvalid={showNameFieldAsInvalid}
 				/>
 			</InnerWrapper>
 		</>
