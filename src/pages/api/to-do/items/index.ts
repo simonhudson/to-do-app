@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb';
 const COLLECTION_NAME = 'items';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const client = await mongoClient;
+	const client = mongoClient;
 	const db = client.db(process.env.DB_NAME);
 
 	const doGet = async () => {

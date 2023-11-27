@@ -4,7 +4,7 @@ import { sendResponsePayload } from '@/helpers/api';
 const COLLECTION_NAME = 'categories';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const client = await mongoClient;
+	const client = mongoClient;
 	const db = client.db(process.env.DB_NAME);
 
 	const METHOD = req.method?.toLowerCase();
