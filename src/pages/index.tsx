@@ -164,10 +164,12 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 				<Button
 					onClick={() => setCurrentView(INCOMPLETE)}
 					label={`To-do (${items.filter((item) => !item.is_complete).length})`}
+					variant="tertiary"
 				/>
 				<Button
 					onClick={() => setCurrentView(COMPLETE)}
 					label={`Done (${items.filter((item) => item.is_complete).length})`}
+					variant="tertiary"
 				/>
 			</ButtonRow>
 			<InnerWrapper>
