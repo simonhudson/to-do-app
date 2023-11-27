@@ -73,14 +73,14 @@ export const Actions = styled.div`
 	gap: ${spacingRem.sm};
 	justify-content: flex-end;
 	margin-left: ${spacingRem.default};
-	max-width: ${rem(100)};
-	min-width: ${rem(100)};
-	width: ${rem(100)};
+	max-width: ${rem(50)};
+	min-width: ${rem(50)};
+	width: ${rem(50)};
 
 	${media.phoneLandscape(`
 		flex-direction: row;
-		max-width: ${rem(205)};
-		min-width: ${rem(205)};
-		width: ${rem(205)};
+		max-width: ${rem(110)};
+		min-width: ${rem(110)};
+		width: ${rem(110)};
 	`)}
 `;

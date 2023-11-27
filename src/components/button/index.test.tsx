@@ -19,6 +19,22 @@ describe('Button', () => {
 		expect(getTagName(screen.getByText('My Button'))).toEqual('button');
 	});
 
+	it('should render as icon only', () => {
+		// Given
+		const props = { ...baseProps };
+		props.iconOnly = true;
+
+		// When
+		initialise(props);
+		screen.debug();
+
+		// Then
+		expect(screen.getByRole('button')).toBeInTheDocument();
+		expect(screen.getAllByRole('button').length).toEqual(1);
+		expect(screen.getByLabelText('My Button')).toBeInTheDocument();
+		expect(getTagName(screen.getByLabelText('My Button'))).toEqual('button');
+	});
+
 	it('should fire onClick event', () => {
 		// Given
 		const props = { ...baseProps };

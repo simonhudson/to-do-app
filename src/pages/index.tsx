@@ -131,12 +131,14 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 							<Actions>
 								<Button
 									icon={`${item.is_complete ? 'list' : 'check'}`}
+									iconOnly={true}
 									onClick={() => updateItem(item)}
 									label={item.is_complete ? 'To-do' : 'Done'}
 									size="small"
 								/>
 								<Button
 									icon="trash"
+									iconOnly={true}
 									onClick={() => updateItem(item, true)}
 									label="Delete"
 									isDestructive={true}

@@ -4,6 +4,7 @@ import type { IButton } from './types.d';
 
 export const Button = ({
 	icon,
+	iconOnly = false,
 	isDestructive = false,
 	isWide = false,
 	label,
@@ -13,6 +14,7 @@ export const Button = ({
 }: IButton) => {
 	return (
 		<StyledButton
+			aria-label={iconOnly ? label : null}
 			data-is-destructive={isDestructive}
 			data-is-wide={isWide}
 			onClick={(e: MouseEvent) => {
@@ -21,7 +23,7 @@ export const Button = ({
 			data-size={size}
 			data-variant={variant}
 		>
-			{label}
+			{!iconOnly ? label : null}
 			{icon && <StyledIcon name={icon} className={icon} />}
 		</StyledButton>
 	);

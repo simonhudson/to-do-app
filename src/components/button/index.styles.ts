@@ -89,5 +89,4 @@ export const StyledButtonRow = styled.div`
 
 export const StyledIcon = styled(Icon)`
 	color: ${palette.primary.white};
-	margin-left: ${spacingRem.sm};
 `;

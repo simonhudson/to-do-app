@@ -2,6 +2,7 @@ import { MouseEvent } from 'react';
 
 export interface IButton {
 	icon?: string;
+	iconOnly?: boolean;
 	isDestructive?: boolean;
 	isWide?: boolean;
 	label: string;
