@@ -114,14 +114,18 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 			currentView === INCOMPLETE
 				? items.filter((item) => !item.is_complete)
 				: items.filter((item) => item.is_complete);
-		return (
+
+		const emptyListMessage =
+			currentView === INCOMPLETE ? `Looks like you're all caught up` : `Nothing completed yet`;
+
+		return filteredItems.length ? (
 			<ItemsList>
 				{filteredItems.map((item) => {
 					return (
 						<ItemsItem id={`item-${item._id}`} key={`item-${item._id}`}>
 							<ItemInfo>
 								<ItemName>{item.name}</ItemName>
-								{item.categoryValues && (
+								{item.categoryValues && item.categoryValues.length > 0 && (
 									<ItemCategories>
 										<ItemCategoriesIcon name="tag" />
 										{item.categoryValues.join(', ')}
@@ -149,6 +153,8 @@ const Home = ({ itemsData, categoriesData }: { itemsData: Item[]; categoriesData
 					);
 				})}
 			</ItemsList>
+		) : (
+			<p>{emptyListMessage}</p>
 		);
 	};
 

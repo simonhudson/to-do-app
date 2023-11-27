@@ -5,6 +5,7 @@ import { palette } from '@/theme/palette';
 
 export const StyledForm = styled.form`
 	background: #f5f5f5;
+	border-radius: ${spacingRem.sm};
 	padding: ${spacingRem.md};
 	text-align: left;
 `;
@@ -22,7 +23,8 @@ export const Label = styled.label`
 export const InputField = styled.input`
 	border: 1px solid ${palette.primary.grey};
 	border-radius: ${spacingRem.xsm};
-	padding: ${spacingRem.sm};
+	padding: ${spacingRem.default};
+	width: 90%;
 
 	&[aria-invalid='true'] {
 		border: 2px solid red;

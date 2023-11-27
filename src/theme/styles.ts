@@ -11,6 +11,7 @@ export const InnerWrapper = styled.div`
 	flex-direction: column;
 	gap: ${spacingRem.md};
 	justify-content: space-between;
+	padding: ${spacingRem.default} 0;
 
 	${media.tabletLandscape(`
 		flex-direction: row;
@@ -19,6 +20,7 @@ export const InnerWrapper = styled.div`
 
 export const ItemsList = styled.ul`
 	list-style: none;
+	margin: 0;
 
 	${media.tabletLandscape(`
 		width: 60%;
@@ -53,12 +55,12 @@ export const ItemInfo = styled.div`
 export const ItemName = styled.span`
 	display: block;
 	font-weight: bold;
-	margin-bottom: ${spacingRem.sm};
 `;
 
 export const ItemCategories = styled.span`
 	display: block;
 	font-size: ${rem(14)};
+	margin-top: ${spacingRem.sm};
 `;
 
 export const ItemCategoriesIcon = styled(Icon)`
