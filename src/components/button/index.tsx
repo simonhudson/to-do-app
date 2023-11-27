@@ -14,7 +14,7 @@ export const Button = ({
 }: IButton) => {
 	return (
 		<StyledButton
-			aria-label={iconOnly ? label : null}
+			aria-label={iconOnly ? label : undefined}
 			data-is-destructive={isDestructive}
 			data-is-wide={isWide}
 			onClick={(e: MouseEvent) => {
