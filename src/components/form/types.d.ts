@@ -1,3 +1,7 @@
+export interface FormProps {
+	children: ReactNode;
+	onSubmit: FormEventHandler;
+}
 export interface FormFieldProps {
 	_id: string;
 	errorText?: string;

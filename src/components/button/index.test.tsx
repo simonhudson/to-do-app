@@ -26,7 +26,6 @@ describe('Button', () => {
 
 		// When
 		initialise(props);
-		screen.debug();
 
 		// Then
 		expect(screen.getByRole('button')).toBeInTheDocument();

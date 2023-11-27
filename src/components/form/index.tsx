@@ -1,10 +1,11 @@
 import { ReactNode, FormEventHandler } from 'react';
 import { StyledForm } from '@/components/form/form.styles';
+import type { FormProps } from './types';
 
-interface FormProps {
-	children: ReactNode;
-	onSubmit: FormEventHandler;
-}
 export const Form = ({ children, onSubmit }: FormProps) => {
-	return <StyledForm onSubmit={onSubmit}>{children}</StyledForm>;
+	return (
+		<StyledForm aria-label="form" onSubmit={onSubmit}>
+			{children}
+		</StyledForm>
+	);
 };

@@ -4,6 +4,7 @@ import type { InputProps } from './types';
 
 describe('Input', () => {
 	const props: InputProps = {
+		_id: 'id-1',
 		id: 'id-1',
 		label: 'Some label',
 		onChange: jest.fn(),
