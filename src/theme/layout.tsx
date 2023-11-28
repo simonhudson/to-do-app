@@ -25,7 +25,7 @@ export const Wrap = styled.div`
 
 export const Footer = styled.footer`
 	font-size: ${rem(13)};
-	padding: ${spacingRem.md} 0 0;
+	padding: ${spacingRem.default} 0 0;
 
 	span {
 		display: block;
