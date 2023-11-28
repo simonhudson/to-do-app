@@ -23,6 +23,15 @@ export const Wrap = styled.div`
 	`)};
 `;
 
+export const Footer = styled.footer`
+	font-size: ${rem(13)};
+	padding: ${spacingRem.md} 0 0;
+
+	span {
+		display: block;
+	}
+`;
+
 export const BoxShadow = `0 0 5px #ddd`;
 
 export const VisuallyHidden = styled.span`

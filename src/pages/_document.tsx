@@ -1,7 +1,6 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
-
 class Layout extends Document {
 	static async getInitialProps(ctx: DocumentContext) {
 		const sheet = new ServerStyleSheet();
@@ -43,6 +42,7 @@ class Layout extends Document {
 				<body id="top">
 					<Main />
 					<NextScript />
+					<footer></footer>
 				</body>
 			</Html>
 		);
